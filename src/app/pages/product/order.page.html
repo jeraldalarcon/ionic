@@ -1,0 +1,27 @@
+
+<ion-header class="no-border">
+  <ion-toolbar color="default" class="no-border" >
+    <ion-buttons slot="start">
+      <ion-button color="secondary">
+        <ion-icon slot="start" name="ios-arrow-back"></ion-icon>
+           Water Station
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar  class="no-boxshadow ion-no-border searchbar-style " >
+    <ion-searchbar ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-list class="margin-top main-container" >
+    <ion-card *ngFor="let product of productList " (click)="sendProductDetails(product)"
+      class="content-container card-visible no-boxshadow"
+    >
+        <img width="235pxx" height="235px" src="{{product.product_image}}" >
+        <p class="product_name">{{product.product_name}}</p>
+    </ion-card>
+  </ion-list>
+
+
+</ion-content>

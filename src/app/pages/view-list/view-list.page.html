@@ -1,0 +1,29 @@
+<ion-app>
+  <ion-header translucent>
+    <ion-toolbar color="secondary" >
+      <ion-title>Transaction</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content fullscreen>
+    <ion-list>
+      <ion-list-header>
+        Transaction List
+      </ion-list-header>
+
+      <ion-item *ngFor="let tran of transactionList">
+        <ion-avatar slot="start">
+          <img src="../../../assets/images/image1.png">
+        </ion-avatar>
+        <ion-label>
+          <h2>Transaction No:{{tran.id}} </h2>
+          <h3>Estimated Delivery Date:{{tran.estimatedDelivery }}</h3>
+          <ion-item >
+
+            <ion-badge color="danger">{{tran.orderStatus}}</ion-badge>
+          </ion-item>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-app>

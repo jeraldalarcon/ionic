@@ -1,0 +1,38 @@
+// .content {
+//   display: flex;
+//   flex-wrap: wrap;
+// }
+
+// .content > * {
+//   flex: 1 1 20%;
+// }
+
+.rounded-button{
+  --border-radius: 50%;
+}
+
+img{
+  height: 30vh;
+  width: auto;
+  margin: auto;
+  display: block;
+}
+
+.position-container{
+  position: absolute;
+  left: 50%;
+  top: 5%;
+  transform: translate(-50%,-50%);
+  --padding-bottom:20px;
+  --padding-top:20px;
+  --padding-left:30px;
+  --padding-right:30px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 20px;
+}
+
+
+.no-border {
+  box-shadow: none !important;
+}
+

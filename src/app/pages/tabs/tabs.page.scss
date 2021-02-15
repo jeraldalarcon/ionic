@@ -1,0 +1,43 @@
+.no-border {
+  border: none;
+  box-shadow: -1px 9px 17px 0px #b7b7b7;
+
+}
+
+
+ion-segment{
+  --background: white;
+  --color: gray;
+}
+
+.router-container{
+  position: absolute;
+  top: 90%;
+  left: 23%;
+  width: 55%;
+  border-top-left-radius: 39px !important;
+  border-bottom-left-radius: 39px !important;
+  border-top-right-radius: 39px !important;
+  border-bottom-right-radius: 39px !important;
+  height: 45px;
+}
+
+.tab-container{
+
+
+  .order-tab-left{
+    border-top-left-radius: 39px !important;
+    border-bottom-left-radius: 39px !important;
+  }
+
+  .order-tab-right{
+    border-top-right-radius: 39px !important;
+    border-bottom-right-radius: 39px !important;
+  }
+}
+
+.productList {
+  font-size: 26px;
+}
+
+
