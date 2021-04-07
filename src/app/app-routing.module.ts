@@ -17,18 +17,22 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule),
-    //...canActivate(redirectLoggedInToOrder)
+    ...canActivate(redirectLoggedInToOrder)
   },
   {
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule),
-    //...canActivate(redirectLoggedInToOrder)
+    ...canActivate(redirectLoggedInToOrder)
   },
   {
     path: 'order-details/:id',
     loadChildren: () => import('./pages/order-details/order-details.module').then( m => m.OrderDetailsPageModule),
-    //...canActivate(redirectLoggedInToOrder),
+    ...canActivate(redirectUnauthorizedToLogin),
 
+  },
+  {
+    path: 'modal',
+    loadChildren: () => import('./pages/modal/modal.module').then( m => m.ModalPageModule)
   }
 ];
 

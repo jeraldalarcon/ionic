@@ -64,14 +64,15 @@ export class OrderDetailsPage implements OnInit {
     });
 
     const idx = this.router.getCurrentNavigation().extras.state.infoData; // get the data in url
-
+    console.log('ttt:',idx)
     this.productForm.patchValue({
       product_name:idx.product_name,
       price: idx.price,
       user_id: idx.user_id,
-      product_image: idx.product_image
+      product_image: idx.img
     });
 
+    console.log('hello',this.productForm.value.img)
     this.proName = this.productForm.value.product_name;
     this.prodImage = this.productForm.value.product_image;
     this.prodPrice = this.productForm.value.price;
@@ -90,26 +91,18 @@ export class OrderDetailsPage implements OnInit {
     console.log('this is user:',user)
   }
 
-  // addToLocalStorageArray(name, value) {
-
-  //   var existing: Array<string> = localStorage.getItem(name);
-  //   existing = existing ? existing.split(',') : [];
-  //   existing.push(value);
-  //   localStorage.setItem(name, existing.toString());
-
-  // };
-
   addOrder(){
 
     const form = this.productForm.value;
-    let obj =
-      {
-        product_name: this.proName,
-        price: this.prodPrice,
-        quantity: this.prodQuantity,
-        product_image: this.prodImage,
-        user_id: this.prodUser,
-        id:  this.prodId
+     let obj = {
+        active:true,
+        categoryName: "water Dispenser",
+        createDate: new Date(),
+        id:  this.prodId,
+        itemCount:this.prodQuantity,
+        name:this.proName,
+        itemImage:this.prodImage,
+        price:this.prodPrice,
       }
 
       var a = localStorage.getItem('data') || "[]";
@@ -117,8 +110,8 @@ export class OrderDetailsPage implements OnInit {
       i.push(obj);
       var a2 = JSON.stringify(i);
       var p = localStorage.setItem('data',a2)
-      console.log('yyy:',localStorage.getItem('data'))
-      this.router.navigateByUrl('/tabs/order-list')
+      // this.router.navigateByUrl('/tabs/order-list')
+      window.location.href="/tabs/order-list"
   }
 
 

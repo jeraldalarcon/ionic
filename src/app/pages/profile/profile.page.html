@@ -24,15 +24,15 @@
       </div>
       <div class="card-body">
         <div class="user-meta ion-text-center">
-          <h3 class="playername">Roger Federer</h3>
+          <h3 class="playername">{{userInfo.full_name}}</h3>
           <h5 class="country">Antipolo CIty</h5>
-          <h5 class="country">09274223434</h5>
+          <h5 class="country">{{userInfo.contact_number}}</h5>
           <!-- <h6 class="ranking">Current ranking: <ion-chip>
               <ion-label>2</ion-label>
             </ion-chip>
           </h6> -->
         </div>
-        <ion-button expand="full" color="secondary">LogOut</ion-button>
+        <ion-button expand="full" color="secondary" (click)="signOut()">LogOut</ion-button>
 
       </div>
     </div>

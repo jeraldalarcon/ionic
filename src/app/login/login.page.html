@@ -1,93 +1,49 @@
-<!-- <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>ClientApp</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding">
-
-  <form [formGroup]="credentialForm">
-    <ion-item>
-      <ion-input
-        placeholder="Email address"
-        formControlName="email"
-        autofocus="true"
-        clearInput="true"
-      ></ion-input>
-    </ion-item>
-    <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
-      <span *ngIf="email.errors?.required">Email is required</span>
-      <span *ngIf="email.errors?.email">Email is invalid</span>
-    </div>
-
-    <ion-item>
-      <ion-input
-      placeholder="Password"
-      type="password"
-      formControlName="password"
-      clearInput="true"
-    ></ion-input>
-    </ion-item>
-    <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
-      <span *ngIf="password.errors?.required">Password is required</span>
-      <span *ngIf="password.errors?.minlength">Password needs to be 6 characters</span>
-    </div>
-  </form>
-
-    <ion-button (click)="signUp()" expand="full">Sign up</ion-button>
-    <ion-button (click)="signIn()" expand="full" color="secondary">Sign in</ion-button>
-
-</ion-content> -->
-
-
-
-
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>ClientApp</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content class="ion-padding ion-align-items-center" >
 
-  <ion-card class="ion-margin ion-padding" >
+  <ion-card class="login-div">
+    <div class="logo"></div>
+    <div class="title">Client Application</div>
+    <div class="sub-title">Login</div>
     <form [formGroup]="credentialForm">
-      <ion-item>
+    <div class="fields">
+      <div class="username">
         <ion-input
+          type="username"
+          class="user-input username ion-padding"
           placeholder="Email address"
           formControlName="email"
           autofocus="true"
           clearInput="true"
         ></ion-input>
-      </ion-item>
-      <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
+      </div>
+      <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors" >
         <span *ngIf="email.errors?.required">Email is required</span>
         <span *ngIf="email.errors?.email">Email is invalid</span>
       </div>
-
-      <ion-item>
+      <div class="password">
         <ion-input
-        placeholder="Password"
         type="password"
+        class="pass-input password ion-padding"
+        placeholder="password"
         formControlName="password"
         clearInput="true"
-      ></ion-input>
-      </ion-item>
+        autofocus="true"
+        ></ion-input>
+      </div>
       <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
         <span *ngIf="password.errors?.required">Password is required</span>
         <span *ngIf="password.errors?.minlength">Password needs to be 6 characters</span>
       </div>
-    </form>
-
-      <ion-button (click)="signIn()" expand="full">Login</ion-button>
-      <ion-grid>
-        <ion-row>
-          <ion-col></ion-col>
-          <ion-col><a routerLink="/register" >Register</a></ion-col>
-          <ion-col></ion-col>
-        </ion-row>
-      </ion-grid>
+    </div>
+    <button class="signin-button" (click)="signIn()">Login</button>
+    <div class="link">
+      <!-- <a href="#">Forgot password?</a> or <a routerLink="/register">Sign up</a> -->
+      <a routerLink="/register">Sign up</a>
+    </div>
+  </form>
   </ion-card>
+
 
 </ion-content>
 

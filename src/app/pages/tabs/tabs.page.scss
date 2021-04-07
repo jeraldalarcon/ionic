@@ -12,14 +12,15 @@ ion-segment{
 
 .router-container{
   position: absolute;
-  top: 90%;
+  top: 89%;
   left: 23%;
   width: 55%;
   border-top-left-radius: 39px !important;
   border-bottom-left-radius: 39px !important;
   border-top-right-radius: 39px !important;
   border-bottom-right-radius: 39px !important;
-  height: 45px;
+  height: 35px;
+  padding: 5px 10px;
 }
 
 .tab-container{

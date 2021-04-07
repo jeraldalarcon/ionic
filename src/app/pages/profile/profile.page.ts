@@ -14,18 +14,10 @@ export class ProfilePage implements OnInit {
   email:string;
   photoUrl:string;
   phoneNumber:string;
-
+  userInfo:any;
 
   userId:string;
 
-
-
-  // displayName: null
-  // email: "lester@gmail.com"
-  // phoneNumber: null
-  // photoURL: null
-  // providerId: "password"
-  // uid: "lester@gmail.com"
 
   constructor(
     private router: Router,
@@ -41,6 +33,7 @@ export class ProfilePage implements OnInit {
     console.log('userid',this.userId)
     this.authService.getUserInfo(this.userId).subscribe(
       res => {
+        this.userInfo = res;
         console.log('info:',res)
       }
     )
@@ -50,8 +43,8 @@ export class ProfilePage implements OnInit {
   signOut() {
 
     this.authService.signOut().then(() => {
-
-      this.router.navigateByUrl('/tabs/login', { replaceUrl: true });
+      localStorage.removeItem('user')
+      this.router.navigateByUrl('/login', { replaceUrl: true });
 
     });
 

@@ -1,17 +1,13 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Product Info</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
   <ion-grid >
     <ion-row>
       <ion-col >
-        <ion-card  class="ion-no-padding no-border">
+        <ion-card  class="ion-no-padding no-border cards">
           <form [formGroup]="productForm" >
             <div class="ion-no-padding" style="position: relative;">
               <img src="{{prodImage}}"  />
+              <ion-button class="btn-danger " style="float: right;    padding: 8px;" routerLink="/tabs/order">Cancel</ion-button>
               <ion-card-content>
                 <ion-card  class="ion-no-padding">
                   <ion-list>
@@ -31,8 +27,8 @@
                   </ion-list>
                 </ion-card>
 
-                  <ion-button color="secondary"class="position-container">
-                    <ion-label (click)="addOrder()"> <ion-icon name="add-circle-outline"></ion-icon> Add Item</ion-label>
+                  <ion-button color="secondary"class="position-container" (click)="addOrder()">
+                    <ion-label > <ion-icon name="add-circle-outline"></ion-icon> Add Item</ion-label>
                   </ion-button>
 
               </ion-card-content>

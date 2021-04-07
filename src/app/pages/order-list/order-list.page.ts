@@ -41,7 +41,9 @@ export class OrderListPage implements OnInit {
     private authService:AuthService,
     private tranSac:TransactionService,
     private geolocation: Geolocation
-  ) { }
+  ) {
+    this.getProductList();
+  }
 
   options = {
     timeout: 10000,
@@ -52,13 +54,16 @@ export class OrderListPage implements OnInit {
   ngOnInit() {
     this.getCurrentCoordinates()
     this.getProductList();
+    this.getProductData();
 
+  }
+
+  getProductData() {
     let local = JSON.parse(localStorage.getItem('user'));
     console.log('local:',local);
     this.userId = local.uid;
     this.authService.getUserInfo(this.userId).subscribe(
       res => {
-        console.log('info:',res)
         this.userInfo = res;
         this.contact_number = this.userInfo.contact_number;
         this.full_name =  this.userInfo.full_name;
@@ -78,9 +83,27 @@ export class OrderListPage implements OnInit {
   }
 
   getProductList(){
-    var localList = localStorage.getItem('data')
+    var localList = localStorage.getItem('data')|| "[]";
     var productList = JSON.parse(localList);
     this.products =  productList;
+    console.log('prodddddd:',this.products)
+
+    // function removeDuplicates(data, key) {
+
+    //   return [
+    //     ...new Map(data.map(item => [key(item), item.id])).values()
+    //   ]
+
+    // };
+
+    // console.log('999',removeDuplicates(this.products, item => item.name));
+    // var i = this.products.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i.id)
+    // console.log('uuuu:',i)
+    // return
+    if(this.products.length === 0){
+      this.router.navigateByUrl('/tabs/order')
+    }
+    console.log('prod:',localStorage.getItem('data'))
     this.len = this.products.length
     var val = 0;
     this.products.forEach(item => {
@@ -91,28 +114,36 @@ export class OrderListPage implements OnInit {
   }
 
   gotToTransaction(){
-    alert('hello')
     this.getCurrentCoordinates()
+
     const obj = {
-      fullName:this.full_name,
-      products:this.products,
+      customer_name:this.full_name,
       contactNumber:this.contact_number,
-      userId:this.userId,
-      quantity:this.len,
-      total:this.grandTotal,
       address:this.inputAddress,
-      deliveryDate: this.myDate,
+      estimatedDelivery: this.myDate,
+      id:this.userId,
+      orderStatus:'Pending',
+      produtToDeliver:this.products,
+      quantity:this.len,
+      status: "Active",
+      remarks:"",
+      totalDeliveryPrice:this.grandTotal,
       long: this.latitude,
-      lat:this.longitude
+      lat:this.longitude,
+      active:true,
     }
 
-    console.log('dataSend:',obj)
     this.tranSac.create_transaction(obj).then(
       res => {
-        console.log('return data:',res)
+            localStorage.removeItem('data')
+            var i  = localStorage.getItem('data')
+            console.log('ggg:',i)
+            this.products = [];
+            console.log('ggg222:', this.products)
+            this.router.navigateByUrl("/tabs/order")
       }
     )
-    //this.router.navigateByUrl("/tabs/view-list")
+
   }
 
   gotToProductList() {
