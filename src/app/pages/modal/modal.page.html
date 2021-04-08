@@ -18,8 +18,7 @@
                       <ion-list>
                         <ion-item>
                           <ion-label>Product Name:</ion-label>
-                          <ion-text slot="end">{{proName}}</ion-text>
-                          <ion-input formControlName="product_name"  readOnly></ion-input>
+                          <ion-input slot="end" formControlName="product_name"  readOnly></ion-input>
                         </ion-item>
                         <ion-item>
                           <ion-label>Product Weight:</ion-label>
@@ -30,11 +29,12 @@
                           <ion-badge slot="end">{{prodPrice}}</ion-badge>
                         </ion-item>
                       </ion-list>
-
+                      <ion-list>
                       <ion-button color="secondary"class="position-container" (click)="addOrder()">
                         <ion-label > <ion-icon name="add-circle-outline"></ion-icon> Add Item</ion-label>
                       </ion-button>
                       <ion-button class="btn-danger "  (click)="closeModel()">Cancel</ion-button>
+                    </ion-list>
                 </ion-col>
               </ion-row>
             </ion-grid>

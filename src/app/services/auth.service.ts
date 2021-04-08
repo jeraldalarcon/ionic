@@ -70,6 +70,7 @@ export class AuthService {
 
 
   getUserInfo(userId){
+    console.log('ID mo:',userId)
     return this.afs.collection('users').doc(userId).valueChanges();
 
   }

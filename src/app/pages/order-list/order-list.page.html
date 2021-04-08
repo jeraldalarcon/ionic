@@ -6,89 +6,70 @@
 
 
 <ion-content>
-  <ion-list class="margin-bt">
-    <ion-card >
-      <ion-grid class="ion-no-padding" >
-        <ion-row >
-          <ion-col >
-            <ion-card  *ngFor="let product of products; let i = index " class=" ion-no-padding overFlow-style">
-              {{i}}
-              <div class="ion-no-padding" style="position: relative;">
-                  <ion-card-content class="ion-no-padding no-box-shadow">
-                      <ion-grid class="no-border">
-                        <ion-row class="no-border">
-                          <ion-avatar >
-                            <img src="{{product.itemImage}}" >
-                          </ion-avatar>
-                          <ion-col class="no-border">
-                            <ion-list>
-                              <ion-item>
-                                <ion-label>Product Name:</ion-label>
-                                <ion-text slot="end">{{product.product_name}}</ion-text>
-                              </ion-item>
-                              <ion-item>
-                                <ion-label>Price</ion-label>
-                                <ion-badge slot="end">{{product.price}}</ion-badge>
-                              </ion-item>
-                            </ion-list>
-                          </ion-col>
-                        </ion-row>
-                      </ion-grid>
-                      <ion-button color="danger" class="position-container " >
-                        <ion-label (click)="deleteOrder(i)"> <ion-icon name="close-outline"></ion-icon>Delete</ion-label>
-                      </ion-button>
-                  </ion-card-content>
-                </div>
-            </ion-card>
-
-          </ion-col>
-          <ion-col class="bg-primary">
-            <ion-item>
-              <form >
-                <ion-item class="ion-no-padding">
-                  <ion-label slot="start">Full Name</ion-label>
-                  <ion-label slot="end">{{full_name}}</ion-label>
-                </ion-item>
-                <ion-item class="ion-no-padding">
-                  <ion-label  slot="start">Address</ion-label>
-                  <ion-input slot="end" placeholder="Please input Address" type="text" text-right name="inputAddress"  [(ngModel)]="inputAddress"></ion-input>
-                </ion-item>
-                <ion-item class="ion-no-padding">
-                  <ion-label   slot="start">Contact Number</ion-label>
-                  <ion-label slot="end">{{contact_number}}</ion-label>
-                </ion-item>
-                <ion-item class="ion-no-padding">
-                  <ion-label   slot="start">Total Quantity</ion-label>
-                  <ion-label slot="end">{{len}}</ion-label>
-                </ion-item>
-                <ion-item class="ion-no-padding">
-                  <ion-label  slot="start">Delivery Date</ion-label>
-                  <ion-datetime
-                    slot="end"
-                    placeholder="Select Date"
-                    name="mydate"
-                    [(ngModel)]="myDate"
-                    ></ion-datetime>
-                </ion-item>
-                <ion-item class="ion-no-padding">
-                  <ion-label  slot="start">Mode of Payment</ion-label>
-                  <ion-input  slot="end">{{modeOfPayment}}</ion-input>
-                </ion-item>
-                <ion-item class="ion-no-padding">
-                  <ion-label position="fixed" slot="start" >Grand Total</ion-label>
-
-                  <ion-label slot="end">{{grandTotal}}</ion-label>
-                </ion-item>
-                <ion-button  expand="full" size="large" color="warning"  (click)="gotToProductList()"> <ion-icon name="cart-outline"></ion-icon>Add Item</ion-button>
-                <ion-button  expand="full" size="large" (click)="gotToTransaction()"> <ion-icon name="cart-outline"></ion-icon>Buy</ion-button>
-              </form>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card>
+  <ion-list>
+    <ion-item lines="none" *ngFor="let product of items; let i = index ">
+      <ion-avatar slot="start">
+        <img src="{{product.product_image}}" >
+      </ion-avatar>
+      <ion-label slot="start">
+        <ion-text color="primary">
+          <h3>{{product.product_name}}</h3>
+        </ion-text>
+        <ion-badge slot="start">{{product.price}}</ion-badge>
+      </ion-label>
+      <ion-button color="danger"  slot="end">
+        <ion-label (click)="deleteItem(product)"> <ion-icon name="close-outline"></ion-icon>Delete</ion-label>
+      </ion-button>
+    </ion-item>
   </ion-list>
+  <ion-card >
+    <ion-grid class="ion-no-padding" >
+      <ion-row >
+        <ion-col class="bg-primary">
+          <ion-item>
+            <form style="width: 100%;">
+              <ion-item class="ion-no-padding">
+                <ion-label slot="start">Full Name</ion-label>
+                <ion-label slot="end">{{full_name}}</ion-label>
+              </ion-item>
+              <ion-item class="ion-no-padding">
+                <ion-label  slot="start">Address</ion-label>
+                <ion-input slot="end" placeholder="Please input Address" type="text" text-right name="inputAddress"  [(ngModel)]="inputAddress"></ion-input>
+              </ion-item>
+              <ion-item class="ion-no-padding">
+                <ion-label   slot="start">Contact Number</ion-label>
+                <ion-label slot="end">{{contact_number}}</ion-label>
+              </ion-item>
+              <ion-item class="ion-no-padding">
+                <ion-label   slot="start">Total Quantity</ion-label>
+                <ion-label slot="end">{{len}}</ion-label>
+              </ion-item>
+              <ion-item class="ion-no-padding">
+                <ion-label  slot="start">Delivery Date</ion-label>
+                <ion-datetime
+                  slot="end"
+                  placeholder="Select Date"
+                  name="mydate"
+                  [(ngModel)]="myDate"
+                  ></ion-datetime>
+              </ion-item>
+              <ion-item class="ion-no-padding">
+                <ion-label  slot="start">Mode of Payment</ion-label>
+                <ion-input  slot="end">{{modeOfPayment}}</ion-input>
+              </ion-item>
+              <ion-item class="ion-no-padding">
+                <ion-label position="fixed" slot="start" >Grand Total</ion-label>
 
+                <ion-label slot="end">{{grandTotal}}</ion-label>
+              </ion-item>
+              <ion-button  expand="full" size="large" color="warning"  (click)="gotToProductList()"> <ion-icon name="cart-outline"></ion-icon>Add Item</ion-button>
+              <ion-button  expand="full" size="large" (click)="gotToTransaction()"> <ion-icon name="cart-outline"></ion-icon>Buy</ion-button>
+            </form>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
 
 </ion-content>
 

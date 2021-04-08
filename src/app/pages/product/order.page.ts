@@ -48,22 +48,6 @@ export class OrderPage implements OnInit {
   ngOnInit() {
     this.getProductList();
 
-    // this.authService.read_order().subscribe(data => {
-
-    //   this.orderListData = data.map(e => {
-    //     return {
-    //       id: e.payload.doc.id,
-    //       isEdit: false,
-    //       product_name: e.payload.doc.data()['product_name'],
-    //       price: e.payload.doc.data()['price'],
-    //       quantity: e.payload.doc.data()['quantity'],
-    //     };
-    //   })
-    //   console.log(this.orderListData);
-
-    // });
-    // this.orderListData = this.authService.read_order()
-    // console.log('tttt',this.orderListData)
     let user = this.afs.user.subscribe(
       (data) => {
         console.log('UUU:',data)
@@ -97,51 +81,6 @@ export class OrderPage implements OnInit {
     )
   }
 
-
-  async presentActionSheet() {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Albums',
-      cssClass: 'my-custom-class',
-      buttons: [{
-        text: 'Delete',
-        role: 'destructive',
-        icon: 'trash',
-        handler: () => {
-          console.log('Delete clicked');
-        }
-      }, {
-        text: 'Share',
-        icon: 'share',
-        handler: () => {
-          console.log('Share clicked');
-        }
-      }, {
-        text: 'Play (open modal)',
-        icon: 'caret-forward-circle',
-        handler: () => {
-          console.log('Play clicked');
-        }
-      }, {
-        text: 'Favorite',
-        icon: 'heart',
-        handler: () => {
-          console.log('Favorite clicked');
-        }
-      }, {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
-    });
-    await actionSheet.present();
-  }
-
-  openModal(){
-
-  }
 
   async openIonModal(data) {
     const modal = await this.modalController.create({
