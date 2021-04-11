@@ -1,11 +1,27 @@
-<ion-app>
-  <ion-header translucent>
-    <ion-toolbar color="secondary" >
-      <ion-title>Transaction</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <ion-content fullscreen>
+<ion-header class="ion-no-border header-style" color="default">
+  <ion-toolbar class="no-border header" >
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="../../../assets/images/profile.png">
+    </ion-avatar>
+    <ion-label>
+      <p>Hello,</p>
+      <h3>Jerald B. Alarcon</h3>
+    </ion-label>
+  </ion-item>
+
+    <ion-buttons slot="end">
+      <ion-button class="bordered" fill="solid" style="--background: blue;">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+  <div class="logo"></div>
+</ion-header>
+
+  <ion-content fullscreen class="content-style" >
     <ion-list>
       <ion-list-header>
         Transaction List
@@ -26,4 +42,3 @@
       </ion-item>
     </ion-list>
   </ion-content>
-</ion-app>

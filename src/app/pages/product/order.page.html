@@ -1,19 +1,56 @@
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar >
+    <ion-buttons  slot="start">
+    <ion-button>
+      <ion-icon name="apps"></ion-icon>
+    </ion-button>
+  </ion-buttons>
 
-<ion-header class="ion-no-border" color="default" >
-  <ion-toolbar class="no-border header"  >
-    <ion-buttons style="margin: 0 auto;">
-      <ion-button color="secondary">
-        <ion-icon slot="start" name="ios-arrow-back"></ion-icon>
-           Water Station
+    <ion-buttons slot="end">
+      <ion-button class="bordered" fill="solid" color="light">
+        <ion-icon color="custom" name="notifications"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="https://media-exp1.licdn.com/dms/image/C5603AQGQZYNaTPF1cg/profile-displayphoto-shrink_100_100/0/1517000446884?e=1619654400&v=beta&t=CAS65FF2s0hX0u8bgtk3JHc9xZxebPztjh8DvCUNe78"/>
+    </ion-avatar>
+    <ion-label>
+      <p>Hello,</p>
+      <h3>Jerald B. Alarcon</h3>
+    </ion-label>
+  </ion-item>
+</ion-header> -->
+<ion-header class="ion-no-border header-style" color="default">
+  <ion-toolbar class="no-border header" >
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="../../../assets/images/profile.png">
+    </ion-avatar>
+    <ion-label>
+      <p>Hello,</p>
+      <h3>Jerald B. Alarcon</h3>
+    </ion-label>
+  </ion-item>
+
+    <ion-buttons slot="end">
+      <ion-button class="bordered" fill="solid" style="--background: blue;">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+  <div class="logo"></div>
 </ion-header>
 
-<ion-content fullscreen >
-  <ion-list>
-    <ion-item *ngFor="let product of productList " (click)="openIonModal(product)">
+<ion-content fullscreen  class="content-style" >
+  <ion-list >
+    <ion-list-header>
+      Product List
+    </ion-list-header>
+    <ion-item *ngFor="let product of productList " (click)="openIonModal(product)" class="ion-no-padding">
       <ion-grid>
         <ion-row>
           <ion-col size="3">

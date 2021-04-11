@@ -5,6 +5,8 @@ import { AuthService } from './../../services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit ,ViewChild} from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -13,6 +15,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
   styleUrls: ['./order-list.page.scss'],
 })
 export class OrderListPage implements OnInit {
+
+  public myDataList = new BehaviorSubject([]);
+  public dataSource: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);
 
   products:any = [];
   userInfo:any = [];
@@ -35,6 +40,7 @@ export class OrderListPage implements OnInit {
   longitude: any = 0; //longitude
 
   items: Item[] = [];
+
   newItem: Item = <Item>{};
 
   @ViewChild('myList')myList;
@@ -47,12 +53,13 @@ export class OrderListPage implements OnInit {
     private orderService: OrderService,
     private plt: Platform,
     private toast:ToastController,
+    private storage: Storage
   ) {
-    this.getProductList();
 
-    this.plt.ready().then(()=> {
-      this.loadItems();
-    })
+
+    // this.plt.ready().then(()=> {
+    //   this.loadItems();
+    // })
   }
 
   options = {
@@ -63,8 +70,21 @@ export class OrderListPage implements OnInit {
 
   ngOnInit() {
     this.getCurrentCoordinates()
-    this.getProductList();
     this.getProductData();
+    // this.loadItems();
+
+
+    this.orderService.myData.subscribe(res => {
+      this.items = res;
+      console.log('infromation:',this.items)
+
+      this.len = this.items.length;
+      var val = 0;
+      this.grandTotal = this.items.reduce((sum,item) => sum + item.price, 0);
+
+    })
+
+
 
   }
 
@@ -72,8 +92,8 @@ export class OrderListPage implements OnInit {
     let local = JSON.parse(localStorage.getItem('user'));
     console.log('local:',local);
     this.userId = local.uid;
-    console.log('elocal.uid',local.uid)
-    this.authService.getUserInfo(this.userId).subscribe(
+    console.log('USER ID KO:',this.userId)
+    this.authService.getUserInfo(this.userId.toString()).subscribe(
       res => {
         console.log('ttt:',res)
         this.userInfo = res;
@@ -98,11 +118,11 @@ export class OrderListPage implements OnInit {
     var localList = localStorage.getItem('data')|| "[]";
     var productList = JSON.parse(localList);
     this.products =  productList;
-    console.log('prodddddd:',this.products)
+    console.log('prodddddd:',this.items)
 
-    if(this.products.length === 0){
-      this.router.navigateByUrl('/tabs/order')
-    }
+    // if(this.products.length === 0){
+    //   this.router.navigateByUrl('/tabs/order')
+    // }
     console.log('prod:',localStorage.getItem('data'))
     this.len = this.products.length
     var val = 0;
@@ -123,7 +143,7 @@ export class OrderListPage implements OnInit {
       estimatedDelivery: this.myDate,
       id:this.userId,
       orderStatus:'Pending',
-      produtToDeliver:this.products,
+      produtToDeliver:this.items,
       quantity:this.len,
       status: "Active",
       remarks:"",
@@ -133,13 +153,11 @@ export class OrderListPage implements OnInit {
       active:true,
     }
 
+    console.log('buy ko to:',obj)
+return
     this.tranSac.create_transaction(obj).then(
       res => {
-            localStorage.removeItem('data')
-            var i  = localStorage.getItem('data')
-            console.log('ggg:',i)
-            this.products = [];
-            console.log('ggg222:', this.products)
+            this.storage.clear();
             this.router.navigateByUrl("/tabs/order")
       }
     )
@@ -170,17 +188,30 @@ export class OrderListPage implements OnInit {
   addItem(){
     this.orderService.addItem(this.newItem).then(item => {
       this.newItem = <Item>{};
+      //this.loadItems();
       this.showToast('item added');
-      this.loadItems();
     })
   }
 
-  async loadItems(){
-    await this.orderService.getItems().then(items => {
-      this.items = items;
-      console.log('rrr:',this.items)
-    })
-  }
+  // async loadItems(){
+  //   await this.orderService.getItems().then(items => {
+  //     this.items = items;
+  //     console.log('rrr:',this.items)
+  //   })
+  // }
+
+  // loadItems(){
+  //   this.orderService.myData.subscribe(res => {
+
+  //     this.items = res;
+  //     console.log('infromation:',this.items)
+
+  //     this.len = this.items.length;
+  //     var val = 0;
+  //     this.grandTotal = this.items.reduce((sum,item) => sum + item.price, 0);
+
+  //   })
+  // }
 
   updateItem(item: Item){
     item.product_name = `UPDATED: ${item.product_name}`;
@@ -192,7 +223,9 @@ export class OrderListPage implements OnInit {
   }
 
   deleteItem(item: Item){
-    this.orderService.updateItem(item).then(item => {
+    this.orderService.deleteItem(item).then(item => {
+      console.log('yyyy:',item)
+      //this.loadItems()
       this.showToast('Item Deleted');
     })
 

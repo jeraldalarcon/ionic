@@ -45,19 +45,21 @@ export class AuthService {
   async signup({ email, password, fullName, contactNumber }): Promise<any> {
     const credential = await this.afAuth.createUserWithEmailAndPassword(
       email,
-      password
+      password,
     );
 
     const uid = credential.user.uid;
 
     return this.afs.doc(
       `users/${uid}`
-    ).update({
+    ).set({
       uid,
       email: credential.user.email,
       full_name: fullName,
       contact_number : contactNumber
     })
+
+
   }
 
   signIn({ email, password }) {
@@ -70,9 +72,7 @@ export class AuthService {
 
 
   getUserInfo(userId){
-    console.log('ID mo:',userId)
     return this.afs.collection('users').doc(userId).valueChanges();
-
   }
 
    getUsers() {

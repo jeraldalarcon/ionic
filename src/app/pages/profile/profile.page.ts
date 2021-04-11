@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './../../services/auth.service';
 
 import { Router } from '@angular/router'
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +23,7 @@ export class ProfilePage implements OnInit {
   constructor(
     private router: Router,
     private authService:AuthService,
+    private storage:Storage
   ) { }
 
   ngOnInit() {
@@ -44,6 +46,7 @@ export class ProfilePage implements OnInit {
 
     this.authService.signOut().then(() => {
       localStorage.removeItem('user')
+      this.storage.clear();
       this.router.navigateByUrl('/login', { replaceUrl: true });
 
     });

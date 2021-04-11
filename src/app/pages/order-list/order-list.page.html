@@ -1,12 +1,31 @@
-<ion-header>
-  <ion-toolbar >
-    <ion-title>Order List</ion-title>
+<ion-header class="ion-no-border header-style" color="default">
+  <ion-toolbar class="no-border header" >
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="../../../assets/images/profile.png">
+    </ion-avatar>
+    <ion-label>
+      <p>Hello,</p>
+      <h3>Jerald B. Alarcon</h3>
+    </ion-label>
+  </ion-item>
+
+    <ion-buttons slot="end">
+      <ion-button class="bordered" fill="solid" style="--background: blue;">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
+  <div class="logo"></div>
 </ion-header>
 
 
-<ion-content>
+<ion-content class="content-style" >
   <ion-list>
+    <ion-list-header>
+      Order Product List
+    </ion-list-header>
     <ion-item lines="none" *ngFor="let product of items; let i = index ">
       <ion-avatar slot="start">
         <img src="{{product.product_image}}" >
@@ -22,7 +41,7 @@
       </ion-button>
     </ion-item>
   </ion-list>
-  <ion-card >
+  <ion-card style="margin-bottom: 250px !important;">
     <ion-grid class="ion-no-padding" >
       <ion-row >
         <ion-col class="bg-primary">
@@ -34,7 +53,8 @@
               </ion-item>
               <ion-item class="ion-no-padding">
                 <ion-label  slot="start">Address</ion-label>
-                <ion-input slot="end" placeholder="Please input Address" type="text" text-right name="inputAddress"  [(ngModel)]="inputAddress"></ion-input>
+                <!-- <ion-input slot="end" placeholder="Please input Address" type="text" text-right name="inputAddress"  [(ngModel)]="inputAddress"></ion-input> -->
+                <ion-textarea name="inputAddress" placeholder="Enter more information here..."  [(ngModel)]="inputAddress"></ion-textarea>
               </ion-item>
               <ion-item class="ion-no-padding">
                 <ion-label   slot="start">Contact Number</ion-label>

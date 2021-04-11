@@ -45,14 +45,12 @@ export class ModalPage implements OnInit {
       product_name: ['', [Validators.required]],
       price: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
-      user_id: [''],
       product_image: [''],
     });
 
     this.productForm.patchValue({
       product_name:this.proName,
       price: this.prodPrice,
-      user_id: this.idx,
       product_image: this.prodImage
     });
 
@@ -65,12 +63,15 @@ export class ModalPage implements OnInit {
 
 
   addOrder(){
-    console.log('datat ko :',this.productForm.value)
+    this.productForm.value.user_id = this.idx,
+    this.productForm.value.product_id = this.prodId;
     this.orderService.addItem(this.productForm.value)
     .then(item => {
+      console.log('items:',item)
       this.orderService.showToast('item added');
       this.closeModel();
       this.router.navigateByUrl('/tabs/order-list')
+      // this.router.navigate(['/tabs/order-list'],{queryParams:item})
     })
   }
 
