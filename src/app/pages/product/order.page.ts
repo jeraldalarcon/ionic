@@ -29,6 +29,7 @@ export class OrderPage implements OnInit {
   orderForm: FormGroup;
   modelData: any;
   idx: string;
+  userInfo;
 
   constructor(
     private router: Router,
@@ -47,6 +48,14 @@ export class OrderPage implements OnInit {
 
   ngOnInit() {
     this.getProductList();
+
+    let local = JSON.parse(localStorage.getItem('user'));
+    this.authService.getUserInfo(local.uid).subscribe(
+      res => {
+        this.userInfo = res;
+        console.log('info:',res)
+      }
+    )
 
     let user = this.afs.user.subscribe(
       (data) => {
