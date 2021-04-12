@@ -1,43 +1,27 @@
 <ion-header class="ion-no-border header-style" color="default">
-  <!-- <ion-toolbar class="no-border header" >
-  <ion-item lines="none">
-    <ion-avatar slot="start">
-      <img src="../../../assets/images/profile.png">
-    </ion-avatar>
-    <ion-label>
-      <p>Hello,</p>
-      <h3>Jerald B. Alarcon</h3>
-    </ion-label>
-  </ion-item>
-
-    <ion-buttons slot="end">
-      <ion-button class="bordered" fill="solid" style="--background: blue;">
-        <ion-icon name="log-out"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
-  </ion-toolbar> -->
   <div class="logo"></div>
 </ion-header>
 
 <ion-content fullscreen="true" slot="fixed" class="content-style" >
     <div class="card">
       <div class="header">
-        <div class="avatar">
-          <img src="./../../../assets/images/building.jpg" alt="">
+        <div class="avatar" >
+          <ion-avatar>
+          <img src="./../../../assets/images/profile.png" alt="">
+        </ion-avatar>
         </div>
       </div>
       <div class="card-body">
         <div class="user-meta ion-text-center">
-          <h3 class="playername">{{userInfo.full_name}}</h3>
-          <h5 class="country">Antipolo CIty</h5>
-          <h5 class="country">{{userInfo.contact_number}}</h5>
+          <h3 class="playername">{{fn}}</h3>
+          <h5 class="country">{{e}}</h5>
+          <h5 class="country">{{cn}}</h5>
           <!-- <h6 class="ranking">Current ranking: <ion-chip>
               <ion-label>2</ion-label>
             </ion-chip>
           </h6> -->
         </div>
-        <ion-button expand="full" color="secondary" (click)="signOut()">LogOut</ion-button>
+        <ion-button expand="full" color="danger" (click)="signOut()">LogOut</ion-button>
 
       </div>
     </div>

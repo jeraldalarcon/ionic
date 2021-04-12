@@ -24,14 +24,26 @@ export class ViewListPage implements OnInit {
   idx: string;
   transaction:TransactionData;
   transactionList:any = [];
+  userInfo :any;
+  fn:string;
 
   constructor(
     private trasacService:TransactionService,
     private afs: AngularFireAuth,
+    private authService:AuthService
 
   ) { }
 
   ngOnInit() {
+    let local = JSON.parse(localStorage.getItem('user'));
+    this.authService.getUserInfo(local.uid).subscribe(
+      res => {
+        this.userInfo = res;
+        this.fn = this.userInfo.full_name
+        console.log('info:',res)
+      }
+    )
+
     let user = this.afs.user.subscribe(
       (data) => {
         console.log('UUU:',data.uid)

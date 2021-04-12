@@ -16,6 +16,8 @@ export class ProfilePage implements OnInit {
   photoUrl:string;
   phoneNumber:string;
   userInfo:any;
+  fn:string;
+  cn:string;
 
   userId:string;
 
@@ -36,6 +38,9 @@ export class ProfilePage implements OnInit {
     this.authService.getUserInfo(this.userId).subscribe(
       res => {
         this.userInfo = res;
+        this.fn = this.userInfo.full_name;
+        this.cn = this.userInfo.contact_number;
+        this.e = this.userInfo.email;
         console.log('info:',res)
       }
     )

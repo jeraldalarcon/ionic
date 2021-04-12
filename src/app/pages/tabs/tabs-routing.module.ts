@@ -39,7 +39,13 @@ const routes: Routes = [
         path: 'order',
         loadChildren: () => import('../../pages/product/order.module').then( m => m.OrderPageModule),
         ...canActivate(redirectUnauthorizedToLogin),
-      }
+      },
+      // { path: 'welcome', component: WelcomeComponent },
+      {
+        path: '',
+        redirectTo: 'order',
+        pathMatch: 'full'
+      },
     ]
   },{
     path: '',

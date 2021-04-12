@@ -29,7 +29,8 @@ export class OrderPage implements OnInit {
   orderForm: FormGroup;
   modelData: any;
   idx: string;
-  userInfo;
+  userInfo :any;
+  fn:string;
 
   constructor(
     private router: Router,
@@ -53,6 +54,7 @@ export class OrderPage implements OnInit {
     this.authService.getUserInfo(local.uid).subscribe(
       res => {
         this.userInfo = res;
+        this.fn = this.userInfo.full_name
         console.log('info:',res)
       }
     )

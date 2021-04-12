@@ -20,7 +20,8 @@ export class OrderListPage implements OnInit {
   public dataSource: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);
 
   products:any = [];
-  userInfo:any = [];
+  userInfo :any;
+  fn:string;
   prodName:string;
   prodImage: string;
   prodPrice: number;
@@ -69,6 +70,15 @@ export class OrderListPage implements OnInit {
   };
 
   ngOnInit() {
+    let local = JSON.parse(localStorage.getItem('user'));
+    this.authService.getUserInfo(local.uid).subscribe(
+      res => {
+        this.userInfo = res;
+        this.fn = this.userInfo.full_name
+        console.log('info:',res)
+      }
+    )
+
     this.getCurrentCoordinates()
     this.getProductData();
     // this.loadItems();
