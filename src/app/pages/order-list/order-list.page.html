@@ -54,7 +54,16 @@
               <ion-item class="ion-no-padding">
                 <ion-label  slot="start">Address</ion-label>
                 <!-- <ion-input slot="end" placeholder="Please input Address" type="text" text-right name="inputAddress"  [(ngModel)]="inputAddress"></ion-input> -->
-                <ion-textarea name="inputAddress" placeholder="Enter more information here..."  [(ngModel)]="inputAddress"></ion-textarea>
+                <ion-textarea
+                  name="inputAddress"
+                  id="inputAddress"
+                  ngModel
+                  #inputAddress ="ngModel"
+                  placeholder="Enter more information here..."
+                  (ionicChange)="validateInput()"
+                  ></ion-textarea>
+                <div *ngIf="inputAddress.touched && !inputAddress.valid " >{{addressErrorMessage}} kkkk</div>
+                <div *ngIf="inputAddress.errors.required " > kkkk</div>
               </ion-item>
               <ion-item class="ion-no-padding">
                 <ion-label   slot="start">Contact Number</ion-label>
@@ -69,10 +78,21 @@
                 <ion-datetime
                   slot="end"
                   placeholder="Select Date"
-                  name="mydate"
-                  [(ngModel)]="myDate"
+                  name="myDate"
+                  ngModel
+                  #myDate = "ngModel"
+                  id="myDate"
+                  (ionChange)="validateInput(myDate)"
+                  required
                   ></ion-datetime>
+                  {{dateErrorMessage}}
               </ion-item>
+
+              <!-- <ion-input type="number" id="phone"
+              name="phone"  [(ngModel)]="data.phone"
+              #username="ngModel" placeholder="Mobile"
+              (ionChange)='validateForm()'></ion-input> -->
+
               <ion-item class="ion-no-padding">
                 <ion-label  slot="start">Mode of Payment</ion-label>
                 <ion-input  slot="end">{{modeOfPayment}}</ion-input>

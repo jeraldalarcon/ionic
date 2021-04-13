@@ -46,6 +46,9 @@ export class OrderListPage implements OnInit {
 
   @ViewChild('myList')myList;
 
+  addressErrorMessage:string = "";
+
+
   constructor(
     private router: Router,
     private authService:AuthService,
@@ -56,7 +59,6 @@ export class OrderListPage implements OnInit {
     private toast:ToastController,
     private storage: Storage
   ) {
-
 
     // this.plt.ready().then(()=> {
     //   this.loadItems();
@@ -70,6 +72,9 @@ export class OrderListPage implements OnInit {
   };
 
   ngOnInit() {
+
+    this.orderService.getItems();
+
     let local = JSON.parse(localStorage.getItem('user'));
     this.authService.getUserInfo(local.uid).subscribe(
       res => {
@@ -108,7 +113,7 @@ export class OrderListPage implements OnInit {
         console.log('ttt:',res)
         this.userInfo = res;
         this.contact_number = this.userInfo.contact_number;
-        this.full_name =  this.userInfo.full_name;
+        this.full_name = this.userInfo['full_name']
       }
     )
   }
@@ -143,7 +148,25 @@ export class OrderListPage implements OnInit {
 
   }
 
+  validateInput(){
+    var addressValidationFlag = false;
+    console.log('jerald ko:',this.inputAddress)
+    if (this.inputAddress === "" || this.inputAddress === undefined) {
+      this.addressErrorMessage = "Name must be filled out";
+      alert('y1')
+      return addressValidationFlag = false;
+    }else{
+      alert('y2')
+      this.addressErrorMessage = '';
+      return addressValidationFlag = true;
+    }
+
+  }
+
   gotToTransaction(){
+    console.log('55555',this.inputAddress)
+    // if(this.validateInput()){
+    // }
     this.getCurrentCoordinates()
 
     const obj = {

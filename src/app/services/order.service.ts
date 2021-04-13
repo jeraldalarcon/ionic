@@ -27,16 +27,16 @@ export class OrderService {
   ) {
 
   }
-  getItems() {
-    return this.storage.get(ITEMS_KEY)
+  // getItems() {
+  //   return this.storage.get(ITEMS_KEY)
 
-  }
-  // getItems(){
-  //   return this.storage.get(ITEMS_KEY).then((data)=> {
-  //     console.log('rrr:',data)
-  //     this.myData.next(data)
-  //   })
   // }
+  getItems(){
+    return this.storage.get(ITEMS_KEY).then((data)=> {
+      console.log('rrr:',data)
+      this.myData.next(data)
+    })
+  }
 
   addItem(item:Item): Promise<any> {
     return this.storage.get(ITEMS_KEY)

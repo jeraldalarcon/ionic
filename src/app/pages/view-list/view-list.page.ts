@@ -39,7 +39,7 @@ export class ViewListPage implements OnInit {
     this.authService.getUserInfo(local.uid).subscribe(
       res => {
         this.userInfo = res;
-        this.fn = this.userInfo.full_name
+        this.fn = this.userInfo['full_name']
         console.log('info:',res)
       }
     )
