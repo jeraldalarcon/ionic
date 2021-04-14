@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { TransactionService } from './../../services/transaction.service';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 interface TransactionData {
   product_name?: string;
@@ -30,11 +31,13 @@ export class ViewListPage implements OnInit {
   constructor(
     private trasacService:TransactionService,
     private afs: AngularFireAuth,
-    private authService:AuthService
+    private authService:AuthService,
+    private alertController: AlertController,
+    private loadingController: LoadingController,
 
   ) { }
 
-  ngOnInit() {
+   ngOnInit() {
     let local = JSON.parse(localStorage.getItem('user'));
     this.authService.getUserInfo(local.uid).subscribe(
       res => {
@@ -52,13 +55,20 @@ export class ViewListPage implements OnInit {
     );
     console.log('this is user:',user)
 
+    this.getListTransac();
+
+  }
+
+  async getListTransac(){
+    const loading = await this.loadingController.create();
+    await loading.present();
     this.trasacService.getTransaction().subscribe(
       res => {
+        loading.dismiss();
         console.log('hello',res)
         this.transactionList = res;
       }
     )
-
   }
 
   // .then((docRef) => {console.log(docRef.data())})

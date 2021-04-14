@@ -22,26 +22,8 @@
 
 
 <ion-content class="content-style" >
-  <ion-list>
-    <ion-list-header>
-      Order Product List
-    </ion-list-header>
-    <ion-item lines="none" *ngFor="let product of items; let i = index ">
-      <ion-avatar slot="start">
-        <img src="{{product.product_image}}" >
-      </ion-avatar>
-      <ion-label slot="start">
-        <ion-text color="primary">
-          <h3>{{product.product_name}}</h3>
-        </ion-text>
-        <ion-badge slot="start">{{product.price}}</ion-badge>
-      </ion-label>
-      <ion-button color="danger"  slot="end">
-        <ion-label (click)="deleteItem(product)"> <ion-icon name="close-outline"></ion-icon>Delete</ion-label>
-      </ion-button>
-    </ion-item>
-  </ion-list>
-  <ion-card style="margin-bottom: 250px !important;">
+
+  <!-- <ion-card >
     <ion-grid class="ion-no-padding" >
       <ion-row >
         <ion-col class="bg-primary">
@@ -53,7 +35,6 @@
               </ion-item>
               <ion-item class="ion-no-padding">
                 <ion-label  slot="start">Address</ion-label>
-                <!-- <ion-input slot="end" placeholder="Please input Address" type="text" text-right name="inputAddress"  [(ngModel)]="inputAddress"></ion-input> -->
                 <ion-textarea
                   name="inputAddress"
                   id="inputAddress"
@@ -61,9 +42,9 @@
                   #inputAddress ="ngModel"
                   placeholder="Enter more information here..."
                   (ionicChange)="validateInput()"
+                  required
                   ></ion-textarea>
                 <div *ngIf="inputAddress.touched && !inputAddress.valid " >{{addressErrorMessage}} kkkk</div>
-                <div *ngIf="inputAddress.errors.required " > kkkk</div>
               </ion-item>
               <ion-item class="ion-no-padding">
                 <ion-label   slot="start">Contact Number</ion-label>
@@ -82,16 +63,11 @@
                   ngModel
                   #myDate = "ngModel"
                   id="myDate"
-                  (ionChange)="validateInput(myDate)"
+                  (ionChange)="validateInput()"
                   required
                   ></ion-datetime>
-                  {{dateErrorMessage}}
-              </ion-item>
 
-              <!-- <ion-input type="number" id="phone"
-              name="phone"  [(ngModel)]="data.phone"
-              #username="ngModel" placeholder="Mobile"
-              (ionChange)='validateForm()'></ion-input> -->
+              </ion-item>
 
               <ion-item class="ion-no-padding">
                 <ion-label  slot="start">Mode of Payment</ion-label>
@@ -109,7 +85,84 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  </ion-card>
+  </ion-card> -->
+<!--hello-->
+<form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate>
+  <ion-list>
+    <ion-list-header>
+      Order Product List
+    </ion-list-header>
+    <ion-item  *ngIf="!items ; else notEmpty">No Data FOund</ion-item>
+    <ng-template #notEmpty>
+      <ion-item lines="none" *ngFor="let product of items; let i = index ">
+        <ion-avatar slot="start">
+          <img src="{{product.product_image}}" >
+        </ion-avatar>
+        <ion-label slot="start">
+          <ion-text color="primary">
+            <h3>{{product.product_name}}</h3>
+          </ion-text>
+          <ion-badge slot="start">{{product.price}}</ion-badge>
+        </ion-label>
+        <ion-button color="danger"  slot="end">
+          <ion-label (click)="deleteItem(product)"> <ion-icon name="close-outline"></ion-icon>Delete</ion-label>
+        </ion-button>
+      </ion-item>
+    </ng-template>
+  </ion-list>
+<ion-list style="margin-bottom: 300px;">
+  <ion-item lines="full">
+    <ion-label position="floating">Full Name</ion-label>
+    <ion-input readonly="true" class="primary" formControlName="name" type="text" value="{{full_name}}" required></ion-input>
+  </ion-item>
 
+  <ion-item lines="full">
+    <ion-label position="floating">Complete Address</ion-label>
+    <ion-textarea formControlName="address" autofocus="true"
+    clearInput="true" type="text"  required></ion-textarea>
+    <div *ngIf="(address.dirty || address.touched) && address.errors" class="errors">
+      <span *ngIf="address.errors?.required">Address is required</span>
+    </div>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="floating">Email</ion-label>
+    <ion-input formControlName="email" type="email" required></ion-input>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="floating">Delivery Date</ion-label>
+    <ion-datetime autofocus="true" clearInput="true" (ionChange)="getDate($event)" formControlName="dateDelivery" ></ion-datetime>
+    <div *ngIf="(dateDelivery.dirty || dateDelivery.touched) && dateDelivery.errors" class="errors">
+      <span *ngIf="dateDelivery.errors?.required">Delivery Date is required</span>
+    </div>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="floating">Contact Number</ion-label>
+    <ion-input formControlName="contactNumber" autofocus="true" clearInput="true" type="text" required></ion-input>
+    <div *ngIf="(contactNumber.dirty || contactNumber.touched) && contactNumber.errors" class="errors">
+      <span *ngIf="contactNumber.errors?.required">Contact Number is required</span>
+    </div>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="floating">Mode of Payment</ion-label>
+    <ion-input readonly="true" class="primary" formControlName="mode" type="text" value="{{modeOfPayment}}" required></ion-input>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="floating">Grand Total </ion-label>
+    <ion-input formControlName="total" type="text"  value="{{grandTotal}}" required></ion-input>
+  </ion-item>
+
+  <ion-row>
+    <ion-col>
+      <ion-button type="submit" color="warning"  (click)="gotToProductList()" expand="block">Add Order</ion-button>
+      <ion-button type="submit" color="danger" (click)="gotToTransaction()" expand="block">Submit Order</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-list>
+</form>
 </ion-content>
 

@@ -63,9 +63,9 @@
           class="user-input username ion-padding"
         ></ion-input>
       </div>
-      <div *ngIf="(fullName.dirty || fullName.touched) && fullName.errors" class="errors">
-        <span *ngIf="fullName.errors?.required">Full Name is required</span>
-        <span *ngIf="fullName.errors?.minlength">Full Name needs to be 6 characters</span>
+      <div *ngIf="(contactNumber.dirty || contactNumber.touched) && contactNumber.errors" class="errors">
+        <span *ngIf="contactNumber.errors?.required">Contact Number is required</span>
+        <span *ngIf="contactNumber.errors?.minlength">Contact Number needs to be 6 characters</span>
       </div>
     </div>
     <button class="signin-button" (click)="signUp()">Submit</button>

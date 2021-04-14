@@ -32,9 +32,9 @@ export class OrderService {
 
   // }
   getItems(){
-    return this.storage.get(ITEMS_KEY).then((data)=> {
-      console.log('rrr:',data)
-      this.myData.next(data)
+    return this.storage.get(ITEMS_KEY).then((items: Item[]) => {
+      console.log('rrr:',items)
+      return this.myData.next(items)
     })
   }
 

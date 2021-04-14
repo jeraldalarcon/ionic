@@ -7,6 +7,8 @@ import { Component, OnInit ,ViewChild} from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Storage } from '@ionic/storage';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { AlertController, LoadingController } from '@ionic/angular';
 
 
 @Component({
@@ -19,6 +21,9 @@ export class OrderListPage implements OnInit {
   public myDataList = new BehaviorSubject([]);
   public dataSource: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);
 
+  ionicForm: FormGroup;
+  defaultDate = "1987-06-30";
+  isSubmitted = false;
   products:any = [];
   userInfo :any;
   fn:string;
@@ -57,12 +62,11 @@ export class OrderListPage implements OnInit {
     private orderService: OrderService,
     private plt: Platform,
     private toast:ToastController,
-    private storage: Storage
+    private storage: Storage,
+    public formBuilder: FormBuilder,
+    private alertController: AlertController,
+    private loadingController: LoadingController,
   ) {
-
-    // this.plt.ready().then(()=> {
-    //   this.loadItems();
-    // })
   }
 
   options = {
@@ -72,6 +76,16 @@ export class OrderListPage implements OnInit {
   };
 
   ngOnInit() {
+
+    this.ionicForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      address: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+      dateDelivery: ['', [Validators.required]],
+      contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      mode: [this.modeOfPayment],
+      total: [this.grandTotal]
+    })
 
     this.orderService.getItems();
 
@@ -86,7 +100,7 @@ export class OrderListPage implements OnInit {
 
     this.getCurrentCoordinates()
     this.getProductData();
-    // this.loadItems();
+    this.orderService.getItems()
 
 
     this.orderService.myData.subscribe(res => {
@@ -98,10 +112,45 @@ export class OrderListPage implements OnInit {
       this.grandTotal = this.items.reduce((sum,item) => sum + item.price, 0);
 
     })
-
-
-
   }
+
+  get contactNumber() {
+    return this.ionicForm.get('contactNumber');
+  }
+
+  get address() {
+    return this.ionicForm.get('address');
+  }
+
+
+  get dateDelivery() {
+    return this.ionicForm.get('dateDelivery');
+  }
+
+  submitForm() {
+    this.isSubmitted = true;
+    console.log(this.ionicForm.value)
+    if (!this.ionicForm.valid) {
+      console.log('Please provide all the required values!')
+      return false;
+    } else {
+      console.log(this.ionicForm.value)
+    }
+  }
+
+  getDate(e) {
+    let date = new Date(e.target.value).toISOString().substring(0, 10);
+    this.ionicForm.get('dateDelivery').setValue(date, {
+       onlyself: true
+    })
+ }
+
+  // ionViewDidLoad() {
+  //   return this.storage.get('my-items').then((data)=> {
+  //     console.log('rrr:',data)
+  //     this.orderService.myData.next(data)
+  //   })
+  // }
 
   getProductData() {
     let local = JSON.parse(localStorage.getItem('user'));
@@ -148,22 +197,13 @@ export class OrderListPage implements OnInit {
 
   }
 
-  validateInput(){
-    var addressValidationFlag = false;
-    console.log('jerald ko:',this.inputAddress)
-    if (this.inputAddress === "" || this.inputAddress === undefined) {
-      this.addressErrorMessage = "Name must be filled out";
-      alert('y1')
-      return addressValidationFlag = false;
-    }else{
-      alert('y2')
-      this.addressErrorMessage = '';
-      return addressValidationFlag = true;
-    }
 
-  }
+  async gotToTransaction(){
+    console.log('valid',this.ionicForm.valid)
+    if(this.ionicForm.valid){
 
-  gotToTransaction(){
+    const loading = await this.loadingController.create();
+    await loading.present();
     console.log('55555',this.inputAddress)
     // if(this.validateInput()){
     // }
@@ -171,9 +211,9 @@ export class OrderListPage implements OnInit {
 
     const obj = {
       customer_name:this.full_name,
-      contactNumber:this.contact_number,
-      address:this.inputAddress,
-      estimatedDelivery: this.myDate,
+      contactNumber:this.contactNumber,
+      address:this.address,
+      estimatedDelivery: this.dateDelivery,
       id:this.userId,
       orderStatus:'Pending',
       produtToDeliver:this.items,
@@ -190,11 +230,24 @@ export class OrderListPage implements OnInit {
 return
     this.tranSac.create_transaction(obj).then(
       res => {
-            this.storage.clear();
-            this.router.navigateByUrl("/tabs/order")
+        loading.dismiss();
+        this.storage.clear();
+        this.router.navigateByUrl("/tabs/order")
+      },
+      async (err) => {
+        loading.dismiss();
+        const alert = await this.alertController.create({
+          header: 'Sending Order failed',
+          message: err.message,
+          buttons: ['OK'],
+        });
+
+        await alert.present();
       }
     )
-
+  }else{
+    return
+  }
   }
 
   gotToProductList() {
@@ -225,26 +278,6 @@ return
       this.showToast('item added');
     })
   }
-
-  // async loadItems(){
-  //   await this.orderService.getItems().then(items => {
-  //     this.items = items;
-  //     console.log('rrr:',this.items)
-  //   })
-  // }
-
-  // loadItems(){
-  //   this.orderService.myData.subscribe(res => {
-
-  //     this.items = res;
-  //     console.log('infromation:',this.items)
-
-  //     this.len = this.items.length;
-  //     var val = 0;
-  //     this.grandTotal = this.items.reduce((sum,item) => sum + item.price, 0);
-
-  //   })
-  // }
 
   updateItem(item: Item){
     item.product_name = `UPDATED: ${item.product_name}`;
