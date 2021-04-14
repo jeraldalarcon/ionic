@@ -7,6 +7,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { TransactionService } from './../../services/transaction.service';
 import { AlertController, LoadingController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
+
 
 interface TransactionData {
   product_name?: string;
@@ -34,6 +36,8 @@ export class ViewListPage implements OnInit {
     private authService:AuthService,
     private alertController: AlertController,
     private loadingController: LoadingController,
+    private storage:Storage,
+    private router: Router,
 
   ) { }
 
@@ -81,5 +85,17 @@ export class ViewListPage implements OnInit {
 
 
   }
+
+  signOut() {
+
+    this.authService.signOut().then(() => {
+      localStorage.removeItem('user')
+      this.storage.clear();
+      this.router.navigateByUrl('/login', { replaceUrl: true });
+
+    });
+
+  }
+
 
 }

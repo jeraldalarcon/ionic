@@ -87,7 +87,7 @@
     </ion-grid>
   </ion-card> -->
 <!--hello-->
-<form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate>
+<form [formGroup]="ionicForm" (ngSubmit)="gotToTransaction()" novalidate>
   <ion-list>
     <ion-list-header>
       Order Product List
@@ -126,11 +126,6 @@
   </ion-item>
 
   <ion-item lines="full">
-    <ion-label position="floating">Email</ion-label>
-    <ion-input formControlName="email" type="email" required></ion-input>
-  </ion-item>
-
-  <ion-item lines="full">
     <ion-label position="floating">Delivery Date</ion-label>
     <ion-datetime autofocus="true" clearInput="true" (ionChange)="getDate($event)" formControlName="dateDelivery" ></ion-datetime>
     <div *ngIf="(dateDelivery.dirty || dateDelivery.touched) && dateDelivery.errors" class="errors">
@@ -140,7 +135,7 @@
 
   <ion-item lines="full">
     <ion-label position="floating">Contact Number</ion-label>
-    <ion-input formControlName="contactNumber" autofocus="true" clearInput="true" type="text" required></ion-input>
+    <ion-input formControlName="contactNumber" autofocus="true" clearInput="true" type="number" required></ion-input>
     <div *ngIf="(contactNumber.dirty || contactNumber.touched) && contactNumber.errors" class="errors">
       <span *ngIf="contactNumber.errors?.required">Contact Number is required</span>
     </div>
@@ -153,13 +148,13 @@
 
   <ion-item lines="full">
     <ion-label position="floating">Grand Total </ion-label>
-    <ion-input formControlName="total" type="text"  value="{{grandTotal}}" required></ion-input>
+    <ion-input readonly="true" formControlName="total" type="text"  value="{{grandTotal}}" required></ion-input>
   </ion-item>
 
   <ion-row>
     <ion-col>
       <ion-button type="submit" color="warning"  (click)="gotToProductList()" expand="block">Add Order</ion-button>
-      <ion-button type="submit" color="danger" (click)="gotToTransaction()" expand="block">Submit Order</ion-button>
+      <ion-button type="submit" color="danger"  expand="block">Submit Order</ion-button>
     </ion-col>
   </ion-row>
 </ion-list>

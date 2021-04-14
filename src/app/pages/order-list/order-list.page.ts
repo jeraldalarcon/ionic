@@ -80,7 +80,6 @@ export class OrderListPage implements OnInit {
     this.ionicForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       address: ['', Validators.required],
-      email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       dateDelivery: ['', [Validators.required]],
       contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       mode: [this.modeOfPayment],
@@ -204,22 +203,18 @@ export class OrderListPage implements OnInit {
 
     const loading = await this.loadingController.create();
     await loading.present();
-    console.log('55555',this.inputAddress)
-    // if(this.validateInput()){
-    // }
     this.getCurrentCoordinates()
 
     const obj = {
       customer_name:this.full_name,
-      contactNumber:this.contactNumber,
-      address:this.address,
-      estimatedDelivery: this.dateDelivery,
+      contact_number:this.contactNumber.value,
+      address:this.address.value,
+      estimatedDelivery: this.dateDelivery.value,
       id:this.userId,
       orderStatus:'Pending',
       produtToDeliver:this.items,
       quantity:this.len,
       status: "Active",
-      remarks:"",
       totalDeliveryPrice:this.grandTotal,
       long: this.latitude,
       lat:this.longitude,
@@ -227,7 +222,6 @@ export class OrderListPage implements OnInit {
     }
 
     console.log('buy ko to:',obj)
-return
     this.tranSac.create_transaction(obj).then(
       res => {
         loading.dismiss();
@@ -303,6 +297,18 @@ return
       duration: 2000
     });
     toast.present();
+  }
+
+
+  signOut() {
+
+    this.authService.signOut().then(() => {
+      localStorage.removeItem('user')
+      this.storage.clear();
+      this.router.navigateByUrl('/login', { replaceUrl: true });
+
+    });
+
   }
 
 

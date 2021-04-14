@@ -10,6 +10,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Storage } from '@ionic/storage';
 
 interface ProductData {
   product_name?: string;
@@ -42,6 +43,7 @@ export class OrderPage implements OnInit {
     public actionSheetController: ActionSheetController,
     public modalController: ModalController,
     private afs: AngularFireAuth,
+    private storage:Storage
   ) {
 
   }
@@ -68,12 +70,6 @@ export class OrderPage implements OnInit {
     console.log('this is user:',user)
   }
 
-
-  signOut() {
-    this.authService.signOut().then(() => {
-      this.router.navigateByUrl('/login', { replaceUrl: true });
-    });
-  }
 
   sendProductDetails(data) {
 
@@ -116,6 +112,17 @@ export class OrderPage implements OnInit {
     });
 
     return await modal.present();
+  }
+
+  signOut() {
+
+    this.authService.signOut().then(() => {
+      localStorage.removeItem('user')
+      this.storage.clear();
+      this.router.navigateByUrl('/login', { replaceUrl: true });
+
+    });
+
   }
 
 
