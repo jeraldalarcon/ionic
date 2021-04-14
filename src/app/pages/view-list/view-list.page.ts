@@ -66,8 +66,10 @@ export class ViewListPage implements OnInit {
   async getListTransac(){
     const loading = await this.loadingController.create();
     await loading.present();
-    this.trasacService.getTransaction().subscribe(
+    let local = JSON.parse(localStorage.getItem('user')).uid;
+    this.trasacService.getTransaction(local).subscribe(
       res => {
+
         loading.dismiss();
         console.log('hello',res)
         this.transactionList = res;

@@ -31,8 +31,11 @@ export class TransactionService {
     return this.afs.collection(this.tran_collection).add(record);
   }
 
-  getTransaction(){
-    return this.afs.collection(this.tran_collection).valueChanges({ idField: 'id' });
+
+
+  getTransaction(id){
+     return this.afs.collection(this.tran_collection).valueChanges({ idField: 'id' });
+    //return this.afs.collection(this.tran_collection).doc(id).get()
   }
 
   get_transaction_detail(transacId){
