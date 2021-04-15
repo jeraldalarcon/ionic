@@ -88,9 +88,9 @@
   </ion-card> -->
 <!--hello-->
 <form [formGroup]="ionicForm" (ngSubmit)="gotToTransaction()" novalidate>
-  <ion-list>
-    <ion-list-header>
-      Order Product List
+  <ion-list style="background: #0000ff!important;margin-top:0!important">
+    <ion-list-header class="center-list-header">
+      <ion-label>Order Product List</ion-label>
     </ion-list-header>
     <ion-item  *ngIf="items.length < 0 ; else notEmpty">
 

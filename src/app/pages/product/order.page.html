@@ -22,9 +22,10 @@
 </ion-header>
 
 <ion-content fullscreen  class="content-style" >
-  <ion-list style="margin-top: 20px !important;">
-    <ion-list-header>
-      Product List
+
+  <ion-list style="background: #0000ff!important;">
+    <ion-list-header class="center-list-header">
+      <ion-label>Product List</ion-label>
     </ion-list-header>
     <ion-item  *ngIf="productList.length < 0 ; else notEmpty">
 
