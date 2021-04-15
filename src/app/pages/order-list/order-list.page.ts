@@ -224,6 +224,9 @@ export class OrderListPage implements OnInit {
     console.log('buy ko to:',obj)
     this.tranSac.create_transaction(obj).then(
       res => {
+        this.contactNumber.reset();
+        this.address.reset();
+        this.dateDelivery.reset();
         loading.dismiss();
         this.storage.clear();
         this.router.navigateByUrl("/tabs/order")

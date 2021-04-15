@@ -36,7 +36,10 @@
           <h3>Estimated Delivery Date:{{tran.estimatedDelivery }}</h3>
           <ion-item >
 
-            <ion-badge color="danger">{{tran.orderStatus}}</ion-badge>
+            <!-- <ion-badge color="danger">{{tran.orderStatus}}</ion-badge> -->
+            <ion-badge color="danger" *ngIf="tran.orderStatus === 'Cancelled'">{{tran.orderStatus}}</ion-badge>
+            <ion-badge color="primary" *ngIf="tran.orderStatus === 'Pending'">{{tran.orderStatus}}</ion-badge>
+            <ion-badge color="warning" *ngIf="tran.orderStatus === 'Delivery'">{{tran.orderStatus}}</ion-badge>
           </ion-item>
         </ion-label>
       </ion-item>

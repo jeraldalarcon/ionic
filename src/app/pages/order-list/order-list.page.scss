@@ -66,6 +66,10 @@ ion-list {
   margin-top: 20px!important;
 }
 
+ion-input {
+  --placeholder-color: green;     /* placeholder text color */
+  color: var(--ion-color-primary); /* input text color to primary */
+}
 
 .absolute-center {
   width: 100%;
