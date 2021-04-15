@@ -101,14 +101,24 @@ export class OrderListPage implements OnInit {
     this.getProductData();
     this.orderService.getItems()
 
+    this.getItemList();
 
+  }
+
+  getItemList(){
     this.orderService.myData.subscribe(res => {
       this.items = res;
       console.log('infromation:',this.items)
 
-      this.len = this.items.length;
-      var val = 0;
-      this.grandTotal = this.items.reduce((sum,item) => sum + item.price, 0);
+      if(this.items !== null){
+        this.len = this.items.length;
+        console.log('bilangin Ko:',this.len)
+        var val = 0;
+        this.grandTotal = this.items.reduce((sum,item) => sum + item.price, 0);
+      }else {
+        this.len = 0;
+      }
+
 
     })
   }
@@ -219,6 +229,9 @@ export class OrderListPage implements OnInit {
     console.log('buy ko to:',obj)
     this.tranSac.create_transaction(obj).then(
       res => {
+        console.log('retur ko :',res)
+        this.items = [];
+        this.len = 0;
         this.contactNumber.reset();
         this.address.reset();
         this.dateDelivery.reset();
@@ -284,6 +297,7 @@ export class OrderListPage implements OnInit {
     this.orderService.deleteItem(item).then(item => {
       console.log('yyyy:',item)
       //this.loadItems()
+      this.getItemList();
       this.showToast('Item Deleted');
     })
 

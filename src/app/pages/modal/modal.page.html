@@ -1,13 +1,8 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>Product Information</ion-title>
-  </ion-toolbar>
-</ion-header> -->
 
 <ion-content class="ion-padding" >
     <ion-grid>
       <ion-row>
-        <form [formGroup]="productForm" >
+        <form [formGroup]="productForm" (ngSubmit)="addOrder()" novalidate>
           <div class="ion-no-padding" style="position: relative;">
             <ion-grid>
               <ion-row>
@@ -21,19 +16,28 @@
                           <ion-input slot="end" formControlName="product_name"  readOnly></ion-input>
                         </ion-item>
                         <ion-item>
-                          <ion-label>Product Weight:</ion-label>
+                          <ion-label>Weight:</ion-label>
                           <ion-text slot="end">{{prodQuantity}}</ion-text>
                         </ion-item>
                         <ion-item>
                           <ion-label>Price</ion-label>
                           <ion-badge slot="end">{{prodPrice}}</ion-badge>
                         </ion-item>
+                        <ion-item lines="full">
+                          <ion-label >Quantity</ion-label>
+                          <ion-input min="0" (change)='getQ($event)' class="primary" slot="end" style="text-align: end;" formControlName="quantity" autofocus="true" clearInput="true" type="number" required></ion-input>
+                        </ion-item>
+                        <div *ngIf="(quantity.dirty || quantity.touched) && quantity.errors" class="errors">
+                          <span *ngIf="quantity.errors?.required">Quantity  is required</span>
+                        </div>
+                        <ion-item>
+                          <ion-label>TOTAL PRICE:</ion-label>
+                          <ion-badge slot="end">{{total}}</ion-badge>
+                        </ion-item>
                       </ion-list>
                       <ion-list>
-                      <ion-button color="secondary"class="position-container" (click)="addOrder()">
-                        <ion-label > <ion-icon name="add-circle-outline"></ion-icon> Add Item</ion-label>
-                      </ion-button>
-                      <ion-button class="btn-danger "  (click)="closeModel()">Cancel</ion-button>
+                      <ion-button type="submit" color="secondary"  expand="block">Add Item</ion-button>
+                      <ion-button type="submit" class="btn-danger "  expand="block" (click)="closeModel()">Cancel</ion-button>
                     </ion-list>
                 </ion-col>
               </ion-row>

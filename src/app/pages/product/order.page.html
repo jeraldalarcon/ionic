@@ -23,11 +23,11 @@
 
 <ion-content fullscreen  class="content-style" >
 
-  <ion-list style="background: #0000ff!important;">
+  <ion-list style="background: #0f467f!important;margin-top:0!important;">
     <ion-list-header class="center-list-header">
       <ion-label>Product List</ion-label>
     </ion-list-header>
-    <ion-item  *ngIf="productList.length < 0 ; else notEmpty">
+    <ion-item  *ngIf="!productList; else notEmpty">
 
       <ion-badge color="danger" style="margin: 0 auto;">No Data Found</ion-badge>
     </ion-item>

@@ -15,7 +15,7 @@ export class ModalPage implements OnInit {
   @Input() model_title: string;
   @Input() proName: string;
   @Input() prodImage: string;
-  @Input() prodPrice: string;
+  @Input() prodPrice: number;
   @Input() prodQuantity: string;
   @Input() prodUser: string;
   @Input() prodId: string;
@@ -23,6 +23,7 @@ export class ModalPage implements OnInit {
   productForm: FormGroup;
   items: Item[] = [];
   newItem: Item = <Item>{};
+  total:Number = 0;
 
   constructor(
     private modalController: ModalController,
@@ -42,18 +43,30 @@ export class ModalPage implements OnInit {
     console.log('this is user:',user)
 
     this.productForm = this.fb.group({
-      product_name: ['', [Validators.required]],
-      price: ['', [Validators.required]],
+      product_name: [''],
+      price: [0],
       quantity: ['', [Validators.required]],
       product_image: [''],
     });
 
+
+    // this.total = this.prodPrice * this.productForm.value.quantity
     this.productForm.patchValue({
       product_name:this.proName,
       price: this.prodPrice,
-      product_image: this.prodImage
+      product_image: this.prodImage,
     });
 
+  }
+
+  get quantity() {
+    return this.productForm.get('quantity');
+  }
+
+  getQ(ev:any){
+    let val = ev.target.value;
+    console.log('www:',val)
+    return this.total = this.prodPrice * val;
   }
 
   async closeModel() {
@@ -63,8 +76,11 @@ export class ModalPage implements OnInit {
 
 
   addOrder(){
+    if(!this.productForm.valid) return
     this.productForm.value.user_id = this.idx,
     this.productForm.value.product_id = this.prodId;
+    this.productForm.value.total  = this.total;
+    console.log('data ko:', this.productForm.value)
     this.orderService.addItem(this.productForm.value)
     .then(item => {
       console.log('items:',item)

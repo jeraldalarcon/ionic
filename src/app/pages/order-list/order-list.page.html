@@ -88,11 +88,12 @@
   </ion-card> -->
 <!--hello-->
 <form [formGroup]="ionicForm" (ngSubmit)="gotToTransaction()" novalidate>
-  <ion-list style="background: #0000ff!important;margin-top:0!important">
+  <ion-list style="background: #0f467f!important;margin-top:0!important;margin-bottom: 250px;">
     <ion-list-header class="center-list-header">
       <ion-label>Order Product List</ion-label>
     </ion-list-header>
-    <ion-item  *ngIf="items.length < 0 ; else notEmpty">
+    {{len}}
+    <ion-item  *ngIf="len === 0 || len === null ; else notEmpty">
 
       <ion-badge color="danger" style="margin: 0 auto;">No Data Found</ion-badge>
     </ion-item>
@@ -152,17 +153,15 @@
         <ion-input readonly="true" color="danger" formControlName="total" type="text"  value="{{grandTotal}}" required></ion-input>
       </ion-item>
 
-      <ion-row>
-        <ion-col>
+      <ion-card>
           <ion-button type="submit" color="warning"  (click)="gotToProductList()" expand="block">Add Order</ion-button>
-          <ion-button type="submit" color="primary"  expand="block">Submit Order</ion-button>
-        </ion-col>
-      </ion-row>
+        <ion-button type="submit" color="primary"  expand="block">Submit Order</ion-button>
+    </ion-card>
     </ng-template>
   </ion-list>
-<ion-list style="margin-bottom: 300px;">
+<!-- <ion-list style="margin-bottom: 300px;">
 
-</ion-list>
+</ion-list> -->
 </form>
 </ion-content>
 
