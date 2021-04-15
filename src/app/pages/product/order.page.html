@@ -1,28 +1,4 @@
-<!-- <ion-header class="ion-no-border">
-  <ion-toolbar >
-    <ion-buttons  slot="start">
-    <ion-button>
-      <ion-icon name="apps"></ion-icon>
-    </ion-button>
-  </ion-buttons>
 
-    <ion-buttons slot="end">
-      <ion-button class="bordered" fill="solid" color="light">
-        <ion-icon color="custom" name="notifications"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-
-  <ion-item lines="none">
-    <ion-avatar slot="start">
-      <img src="https://media-exp1.licdn.com/dms/image/C5603AQGQZYNaTPF1cg/profile-displayphoto-shrink_100_100/0/1517000446884?e=1619654400&v=beta&t=CAS65FF2s0hX0u8bgtk3JHc9xZxebPztjh8DvCUNe78"/>
-    </ion-avatar>
-    <ion-label>
-      <p>Hello,</p>
-      <h3>Jerald B. Alarcon</h3>
-    </ion-label>
-  </ion-item>
-</ion-header> -->
 <ion-header class="ion-no-border header-style" color="default">
   <ion-toolbar class="no-border header" >
   <ion-item lines="none">
@@ -59,7 +35,7 @@
           <ion-col size="9" >
             <div class="absolute-center">
               <ion-label ><b>{{product.product_name}}</b></ion-label>
-              <ion-label color="primary">PHP {{product.price}} </ion-label>
+              <ion-badge color="warning"><ion-label color="primary">PHP {{product.price}} </ion-label></ion-badge>
             </div>
           </ion-col>
         </ion-row>

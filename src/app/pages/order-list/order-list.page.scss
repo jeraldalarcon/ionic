@@ -66,10 +66,12 @@ ion-list {
   margin-top: 20px!important;
 }
 
-ion-input {
-  --placeholder-color: green;     /* placeholder text color */
-  color: var(--ion-color-primary); /* input text color to primary */
-}
+
+// ion-input {
+
+//   --placeholder-color: green;     /* placeholder text color */
+//   color: var(--ion-color-primary); /* input text color to primary */
+// }
 
 .absolute-center {
   width: 100%;
@@ -141,8 +143,13 @@ div.neu{
 ion-header {
   ion-toolbar, ion-item {
     --background:transparent;
-    padding: 0 10px;
-    background:transparent;
+    padding: 0 0px;
+    background: #1057d4;
+  }
+
+
+  h3 , p {
+    color: white;
   }
 
   ion-toolbar {

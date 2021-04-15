@@ -181,12 +181,7 @@ export class OrderListPage implements OnInit {
     var localList = localStorage.getItem('data')|| "[]";
     var productList = JSON.parse(localList);
     this.products =  productList;
-    console.log('prodddddd:',this.items)
 
-    // if(this.products.length === 0){
-    //   this.router.navigateByUrl('/tabs/order')
-    // }
-    console.log('prod:',localStorage.getItem('data'))
     this.len = this.products.length
     var val = 0;
     this.products.forEach(item => {

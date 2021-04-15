@@ -31,9 +31,7 @@ export class TransactionService {
 
   getTransaction(id){
      return this.afs.collection(this.tran_collection).valueChanges({ idField: id });
-    // return this.afs.collection(this.tran_collection).doc(id).get().onSnapshot((doc) => {
-    //     console.log("Current data: ", doc.data());
-    // });
+    //return this.afs.collection(this.tran_collection).where();
 
     //return this.afs.collection(this.tran_collection).doc(id);
 

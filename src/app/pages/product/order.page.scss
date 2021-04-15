@@ -14,6 +14,8 @@
   margin-bottom:61px;
 }
 
+
+
 .product_name{
   position: absolute;
   top: 24%;
@@ -114,8 +116,12 @@ div.neu{
 ion-header {
   ion-toolbar, ion-item {
     --background:transparent;
-    padding: 0 10px;
-    background:transparent;
+    padding: 0 0px;
+    background: #1057d4;
+  }
+
+  h3 , p {
+    color: white;
   }
 
   ion-toolbar {
@@ -133,6 +139,7 @@ ion-header {
     h3 {
       font-weight:700 ;
       font-size: 14px;
+      color:white;
     }
 
     p {

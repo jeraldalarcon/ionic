@@ -69,21 +69,28 @@ export class ViewListPage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     let local = JSON.parse(localStorage.getItem('user')).uid;
-    this.trasacService.getTransaction(local).subscribe(
-      res => {
+    this.trasacService.getTransaction(local).subscribe((res:any)=> {
+      loading.dismiss();
+      console.log('hello',res.docs);
 
-        loading.dismiss();
-        console.log('hello',res)
-
-        // for (var i = 0; i < res.length; i++) {
-        //   console.log('hello',res)
-        // }
-
-        this.transactionList = res;
+      let newData = [];
+      for (let product of res.docs) {
+        console.log(product)
+          // const id = product.id;
+          // product = product.data();
+          // product.pid = id;
+          // newData.push(product);
       }
-    )
-    // this.afs.collection(this.tran_collection).doc(id).get()this.afs.collection(this.tran_collection).doc(id).get()
 
+
+    // })  .subscribe(
+    //   res => {
+
+    //     this.transactionList = res;
+    //   }
+    // )
+    // this.afs.collection(this.tran_collection).doc(id).get()this.afs.collection(this.tran_collection).doc(id).get()
+    })
   }
 
   // .then((docRef) => {console.log(docRef.data())})

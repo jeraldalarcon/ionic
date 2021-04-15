@@ -9,6 +9,10 @@
 
 }
 
+h3 , p {
+  color: white;
+}
+
 .margin-top{
   margin-top: 61px;
   margin-bottom:61px;
@@ -115,8 +119,8 @@ div.neu{
 ion-header {
   ion-toolbar, ion-item {
     --background:transparent;
-    padding: 0 10px;
-    background:transparent;
+    padding: 0 0px;
+    background: #1057d4;
   }
 
   ion-toolbar {

@@ -92,7 +92,10 @@
     <ion-list-header>
       Order Product List
     </ion-list-header>
-    <ion-item  *ngIf="!items ; else notEmpty">No Data FOund</ion-item>
+    <ion-item  *ngIf="items.length > 0 ; else notEmpty">
+
+      <ion-badge color="danger" >No Data Found</ion-badge>
+    </ion-item>
     <ng-template #notEmpty>
       <ion-item lines="none" *ngFor="let product of items; let i = index ">
         <ion-avatar slot="start">
@@ -148,7 +151,7 @@
 
   <ion-item lines="full">
     <ion-label position="floating">Grand Total </ion-label>
-    <ion-input readonly="true" formControlName="total" type="text"  value="{{grandTotal}}" required></ion-input>
+    <ion-input readonly="true" color="danger" formControlName="total" type="text"  value="{{grandTotal}}" required></ion-input>
   </ion-item>
 
   <ion-row>
