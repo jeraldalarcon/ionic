@@ -92,9 +92,9 @@
     <ion-list-header>
       Order Product List
     </ion-list-header>
-    <ion-item  *ngIf="items.length > 0 ; else notEmpty">
+    <ion-item  *ngIf="items.length < 0 ; else notEmpty">
 
-      <ion-badge color="danger" >No Data Found</ion-badge>
+      <ion-badge color="danger" style="margin: 0 auto;">No Data Found</ion-badge>
     </ion-item>
     <ng-template #notEmpty>
       <ion-item lines="none" *ngFor="let product of items; let i = index ">
@@ -111,55 +111,57 @@
           <ion-label (click)="deleteItem(product)"> <ion-icon name="close-outline"></ion-icon>Delete</ion-label>
         </ion-button>
       </ion-item>
+
+      <ion-item lines="full">
+        <ion-label position="floating">Full Name</ion-label>
+        <ion-input readonly="true" class="primary" formControlName="name" type="text" value="{{full_name}}" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="full">
+        <ion-label position="floating">Complete Address</ion-label>
+        <ion-textarea formControlName="address" autofocus="true"
+        clearInput="true" type="text"  required></ion-textarea>
+        <div *ngIf="(address.dirty || address.touched) && address.errors" class="errors">
+          <span *ngIf="address.errors?.required">Address is required</span>
+        </div>
+      </ion-item>
+
+      <ion-item lines="full">
+        <ion-label position="floating">Delivery Date</ion-label>
+        <ion-datetime autofocus="true" clearInput="true" formControlName="dateDelivery" ></ion-datetime>
+        <div *ngIf="(dateDelivery.dirty || dateDelivery.touched) && dateDelivery.errors" class="errors">
+          <span *ngIf="dateDelivery.errors?.required">Delivery Date is required</span>
+        </div>
+      </ion-item>
+
+      <ion-item lines="full">
+        <ion-label position="floating">Contact Number</ion-label>
+        <ion-input formControlName="contactNumber" autofocus="true" clearInput="true" type="number" required></ion-input>
+        <div *ngIf="(contactNumber.dirty || contactNumber.touched) && contactNumber.errors" class="errors">
+          <span *ngIf="contactNumber.errors?.required">Contact Number is required</span>
+        </div>
+      </ion-item>
+
+      <ion-item lines="full">
+        <ion-label position="floating">Mode of Payment</ion-label>
+        <ion-input readonly="true" class="primary" formControlName="mode" type="text" value="{{modeOfPayment}}" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="full">
+        <ion-label position="floating">Grand Total </ion-label>
+        <ion-input readonly="true" color="danger" formControlName="total" type="text"  value="{{grandTotal}}" required></ion-input>
+      </ion-item>
+
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="warning"  (click)="gotToProductList()" expand="block">Add Order</ion-button>
+          <ion-button type="submit" color="primary"  expand="block">Submit Order</ion-button>
+        </ion-col>
+      </ion-row>
     </ng-template>
   </ion-list>
 <ion-list style="margin-bottom: 300px;">
-  <ion-item lines="full">
-    <ion-label position="floating">Full Name</ion-label>
-    <ion-input readonly="true" class="primary" formControlName="name" type="text" value="{{full_name}}" required></ion-input>
-  </ion-item>
 
-  <ion-item lines="full">
-    <ion-label position="floating">Complete Address</ion-label>
-    <ion-textarea formControlName="address" autofocus="true"
-    clearInput="true" type="text"  required></ion-textarea>
-    <div *ngIf="(address.dirty || address.touched) && address.errors" class="errors">
-      <span *ngIf="address.errors?.required">Address is required</span>
-    </div>
-  </ion-item>
-
-  <ion-item lines="full">
-    <ion-label position="floating">Delivery Date</ion-label>
-    <ion-datetime autofocus="true" clearInput="true" formControlName="dateDelivery" ></ion-datetime>
-    <div *ngIf="(dateDelivery.dirty || dateDelivery.touched) && dateDelivery.errors" class="errors">
-      <span *ngIf="dateDelivery.errors?.required">Delivery Date is required</span>
-    </div>
-  </ion-item>
-
-  <ion-item lines="full">
-    <ion-label position="floating">Contact Number</ion-label>
-    <ion-input formControlName="contactNumber" autofocus="true" clearInput="true" type="number" required></ion-input>
-    <div *ngIf="(contactNumber.dirty || contactNumber.touched) && contactNumber.errors" class="errors">
-      <span *ngIf="contactNumber.errors?.required">Contact Number is required</span>
-    </div>
-  </ion-item>
-
-  <ion-item lines="full">
-    <ion-label position="floating">Mode of Payment</ion-label>
-    <ion-input readonly="true" class="primary" formControlName="mode" type="text" value="{{modeOfPayment}}" required></ion-input>
-  </ion-item>
-
-  <ion-item lines="full">
-    <ion-label position="floating">Grand Total </ion-label>
-    <ion-input readonly="true" color="danger" formControlName="total" type="text"  value="{{grandTotal}}" required></ion-input>
-  </ion-item>
-
-  <ion-row>
-    <ion-col>
-      <ion-button type="submit" color="warning"  (click)="gotToProductList()" expand="block">Add Order</ion-button>
-      <ion-button type="submit" color="primary"  expand="block">Submit Order</ion-button>
-    </ion-col>
-  </ion-row>
 </ion-list>
 </form>
 </ion-content>

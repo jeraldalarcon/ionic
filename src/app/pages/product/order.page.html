@@ -22,10 +22,15 @@
 </ion-header>
 
 <ion-content fullscreen  class="content-style" >
-  <ion-list >
+  <ion-list style="margin-top: 20px !important;">
     <ion-list-header>
       Product List
     </ion-list-header>
+    <ion-item  *ngIf="productList.length < 0 ; else notEmpty">
+
+      <ion-badge color="danger" style="margin: 0 auto;">No Data Found</ion-badge>
+    </ion-item>
+    <ng-template #notEmpty>
     <ion-item *ngFor="let product of productList " (click)="openIonModal(product)" class="ion-no-padding">
       <ion-grid>
         <ion-row>
@@ -41,5 +46,6 @@
         </ion-row>
       </ion-grid>
     </ion-item>
+  </ng-template>
   </ion-list>
 </ion-content>
