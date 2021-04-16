@@ -19,11 +19,24 @@ export class ModalPage implements OnInit {
   @Input() prodQuantity: string;
   @Input() prodUser: string;
   @Input() prodId: string;
+  @Input() type: string;
+  @Input() productToDeliver: any;
+  @Input() lat:number;
+  @Input() long: number;
+  @Input() id: string;
+  @Input() orderStatus: string;
+  @Input() address: string;
+  @Input() contact_number: number;
+  @Input() estimatedDelivery:Date;
+  @Input() totalDeliveryPrice:number;
+
   idx: string;
   productForm: FormGroup;
   items: Item[] = [];
   newItem: Item = <Item>{};
-  total:Number = 0;
+  total:Number = 1;
+  tabValue:string = 'transaction';
+  prodItem:[] = [];
 
   constructor(
     private modalController: ModalController,
@@ -34,6 +47,7 @@ export class ModalPage implements OnInit {
     ) {}
 
   ngOnInit() {
+
     let user = this.afs.user.subscribe(
       (data) => {
         console.log('UUU:',data.uid)
@@ -59,6 +73,11 @@ export class ModalPage implements OnInit {
 
   }
 
+  segmentChanged(ev: any) {
+    console.log('Segment changed', ev.detail.value);
+    this.tabValue = ev.detail.value;
+  }
+
   get quantity() {
     return this.productForm.get('quantity');
   }
@@ -77,7 +96,7 @@ export class ModalPage implements OnInit {
 
   addOrder(){
     if(!this.productForm.valid) return
-    this.productForm.value.user_id = this.idx,
+    // this.productForm.value.user_id = this.idx,
     this.productForm.value.product_id = this.prodId;
     this.productForm.value.total  = this.total;
     console.log('data ko:', this.productForm.value)

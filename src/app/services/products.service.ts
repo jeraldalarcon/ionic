@@ -18,7 +18,7 @@ interface OrderData {
 })
 export class ProductsService {
 
-  product_collection = 'product';
+  product_collection = 'inventory';
 
   constructor(
     private afs: AngularFirestore

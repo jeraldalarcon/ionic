@@ -8,6 +8,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { TransactionService } from './../../services/transaction.service';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { ModalController } from '@ionic/angular';
+import { ModalPage } from '../modal/modal.page';
 
 
 interface TransactionData {
@@ -39,70 +41,101 @@ export class ViewListPage implements OnInit {
     private storage:Storage,
     private router: Router,
     private firestore: AngularFirestore,
-
+    public modalController: ModalController,
 
   ) { }
 
-   ngOnInit() {
+  ionViewWillEnter() {
     let local = JSON.parse(localStorage.getItem('user'));
     this.authService.getUserInfo(local.uid).subscribe(
       res => {
         this.userInfo = res;
-        this.fn = this.userInfo['full_name']
-        console.log('info:',res)
+        // this.fn = this.userInfo.full_name;
+      this.getTransaction(this.userInfo.id);
       }
+
     )
+  }
+
+  getTransaction(id) {
+    this.trasacService.getTransaction(this.userInfo.uid).then((res)=> {
+      this.transactionList = res;
+      console.log(res,'doc.data()')
+    })
+  }
+
+   ngOnInit() {
+    let local = JSON.parse(localStorage.getItem('user'));
+
+
+
+    // this.authService.getUserInfo(local.uid).subscribe(
+    //   res => {
+    //     this.userInfo = res;
+    //     //this.fn = this.userInfo['full_name']
+    //     console.log('info:',res)
+    //   }
+    // )
 
     let user = this.afs.user.subscribe(
       (data) => {
         console.log('UUU:',data.uid)
-        this.getTransactionList(data.uid);
       }
     );
     console.log('this is user:',user)
 
-    this.getListTransac();
 
   }
 
-  async getListTransac(){
-    const loading = await this.loadingController.create();
-    await loading.present();
-    let local = JSON.parse(localStorage.getItem('user')).uid;
-    this.trasacService.getTransaction(local).subscribe((res:any)=> {
-      loading.dismiss();
-      console.log('hello',res.docs);
 
-      let newData = [];
-      for (let product of res.docs) {
-        console.log(product)
-          // const id = product.id;
-          // product = product.data();
-          // product.pid = id;
-          // newData.push(product);
+
+  // async getListTransac(){
+  //   const loading = await this.loadingController.create();
+  //   await loading.present();
+  //   let local = JSON.parse(localStorage.getItem('user')).uid;
+  //   this.trasacService.getTransaction(local).subscribe((res:any)=> {
+  //     loading.dismiss();
+  //     console.log('hello',res.docs);
+
+  //     let newData = [];
+  //     for (let product of res.docs) {
+  //       console.log(product)
+  //     }
+
+  //   })
+  // }
+
+  async openIonModal(data) {
+    console.log('ggg:',data)
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      cssClass: 'view-list-style',
+      componentProps: {
+        'model_title': "Nomadic model's reveberation",
+        'customerName': data.customer_name,
+        'estimatedDelivery': data.estimatedDelivery,
+        'address': data.address,
+        'contact_number': data.contact_number,
+        'type': 'transaction',
+        'totalDeliveryPrice': data.totalDeliveryPrice,
+        'productToDeliver': data.productToDeliver,
+        'lat': data.lat,
+        'long': data.long,
+        'id': data.id,
+        'orderStatus': data.orderStatus,
       }
+    });
 
-
-    // })  .subscribe(
-    //   res => {
-
-    //     this.transactionList = res;
-    //   }
-    // )
-    // this.afs.collection(this.tran_collection).doc(id).get()this.afs.collection(this.tran_collection).doc(id).get()
-    })
-  }
-
-  // .then((docRef) => {console.log(docRef.data())})
-  getTransactionList(idx) {
-    this.trasacService.get_transaction_detail(idx).subscribe(
-      res=> {
-        console.log('yyyyyy',res)
+    modal.onDidDismiss().then((modelData) => {
+      if (modelData !== null) {
+        this.modelData = modelData.data;
+        console.log('Modal Data : ' + modelData.data);
       }
-    )
+    });
 
-
+    return await modal.present();
   }
+
 
   signOut() {
 

@@ -7,7 +7,7 @@
     </ion-avatar>
     <ion-label>
       <p>Hello,</p>
-      <h3 style="color:white">{{fn}}</h3>
+      <h3 style="color:white">{{userInfo?.full_name}}</h3>
     </ion-label>
   </ion-item>
 
@@ -26,21 +26,26 @@
       <ion-list-header class="center-list-header">
         <ion-label>Transaction List</ion-label>
       </ion-list-header>
-      <ion-item *ngFor="let tran of transactionList">
+      <ion-item *ngFor="let tran of transactionList" (click)="openIonModal(tran)">
         <ion-avatar slot="start">
           <img src="../../../assets/images/image1.png">
         </ion-avatar>
-        <ion-label>
-          <h2>Transaction No:{{tran.id}} </h2>
-          <h3>Estimated Delivery Date:{{tran.estimatedDelivery }}</h3>
+        <ion-label >
+          <ion-item>
+            <ion-label position="floating">Transaction No.</ion-label>
+            <ion-input readonly value="{{tran.id}}"></ion-input>
+          </ion-item>
           <ion-item >
-
             <!-- <ion-badge color="danger">{{tran.orderStatus}}</ion-badge> -->
-            <ion-badge color="danger" *ngIf="tran.orderStatus === 'Cancelled'">{{tran.orderStatus}}</ion-badge>
+            <ion-badge color="danger" *ngIf="tran.orderStatus === 'Failed'">{{tran.orderStatus}}</ion-badge>
             <ion-badge color="primary" *ngIf="tran.orderStatus === 'Pending'">{{tran.orderStatus}}</ion-badge>
             <ion-badge color="warning" *ngIf="tran.orderStatus === 'Delivery'">{{tran.orderStatus}}</ion-badge>
+            <ion-badge color="secondary" *ngIf="tran.orderStatus === 'Paid'">{{tran.orderStatus}}</ion-badge>
           </ion-item>
         </ion-label>
       </ion-item>
     </ion-list>
   </ion-content>
+
+
+

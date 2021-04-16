@@ -63,8 +63,11 @@ export class OrderPage implements OnInit {
 
     let user = this.afs.user.subscribe(
       (data) => {
-        console.log('UUU:',data)
-        this.idx = data.uid;
+        if(data){
+          console.log('UUU:',data)
+          this.idx = data.uid;
+        }
+
       }
     );
     console.log('this is user:',user)
@@ -95,12 +98,12 @@ export class OrderPage implements OnInit {
       cssClass: 'my-custom-class',
       componentProps: {
         'model_title': "Nomadic model's reveberation",
-        'proName': data.product_name,
-        'prodImage': data.img,
+        'proName': data.name,
+        'prodImage': data.itemImage,
         'prodPrice': data.price,
-        'prodQuantity': data.quantity,
         'prodUser': this.idx,
-        'prodId': data.id
+        'prodId': data.id,
+        'type':'product',
       }
     });
 

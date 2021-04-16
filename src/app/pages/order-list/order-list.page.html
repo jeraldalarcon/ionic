@@ -92,7 +92,6 @@
     <ion-list-header class="center-list-header">
       <ion-label>Order Product List</ion-label>
     </ion-list-header>
-    {{len}}
     <ion-item  *ngIf="len === 0 || len === null ; else notEmpty">
 
       <ion-badge color="danger" style="margin: 0 auto;">No Data Found</ion-badge>
@@ -115,12 +114,12 @@
 
       <ion-item lines="full">
         <ion-label position="floating">Full Name</ion-label>
-        <ion-input readonly="true" class="primary" formControlName="name" type="text" value="{{full_name}}" required></ion-input>
+        <ion-input readonly="true" class="primary" color="secondary"  type="text" value="{{full_name}}" required></ion-input>
       </ion-item>
 
       <ion-item lines="full">
         <ion-label position="floating">Complete Address</ion-label>
-        <ion-textarea formControlName="address" autofocus="true"
+        <ion-textarea formControlName="address" color="secondary" autofocus="true"
         clearInput="true" type="text"  required></ion-textarea>
         <div *ngIf="(address.dirty || address.touched) && address.errors" class="errors">
           <span *ngIf="address.errors?.required">Address is required</span>
@@ -129,7 +128,7 @@
 
       <ion-item lines="full">
         <ion-label position="floating">Delivery Date</ion-label>
-        <ion-datetime autofocus="true" clearInput="true" formControlName="dateDelivery" ></ion-datetime>
+        <ion-datetime autofocus="true" color="secondary" placeholder="Select Delivery Date" clearInput="true" formControlName="dateDelivery" ></ion-datetime>
         <div *ngIf="(dateDelivery.dirty || dateDelivery.touched) && dateDelivery.errors" class="errors">
           <span *ngIf="dateDelivery.errors?.required">Delivery Date is required</span>
         </div>
@@ -137,7 +136,7 @@
 
       <ion-item lines="full">
         <ion-label position="floating">Contact Number</ion-label>
-        <ion-input formControlName="contactNumber" autofocus="true" clearInput="true" type="number" required></ion-input>
+        <ion-input  color="secondary" formControlName="contactNumber" pattern="[0-9]*" min=0 placeholder="Enter Contact Number" autofocus="true" clearInput="true" type="number" required></ion-input>
         <div *ngIf="(contactNumber.dirty || contactNumber.touched) && contactNumber.errors" class="errors">
           <span *ngIf="contactNumber.errors?.required">Contact Number is required</span>
         </div>
@@ -145,15 +144,15 @@
 
       <ion-item lines="full">
         <ion-label position="floating">Mode of Payment</ion-label>
-        <ion-input readonly="true" class="primary" formControlName="mode" type="text" value="{{modeOfPayment}}" required></ion-input>
+        <ion-input color="secondary" readonly="true" class="primary"  type="text" value="{{modeOfPayment}}" required></ion-input>
       </ion-item>
 
       <ion-item lines="full">
         <ion-label position="floating">Grand Total </ion-label>
-        <ion-input readonly="true" color="danger" formControlName="total" type="text"  value="{{grandTotal}}" required></ion-input>
+        <ion-input color="secondary" readonly="true" color="danger" type="number"  value="{{grandTotal}}" required></ion-input>
       </ion-item>
 
-      <ion-card>
+      <ion-card style="background: transparent;">
           <ion-button type="submit" color="warning"  (click)="gotToProductList()" expand="block">Add Order</ion-button>
         <ion-button type="submit" color="primary"  expand="block">Submit Order</ion-button>
     </ion-card>

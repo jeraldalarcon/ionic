@@ -1,51 +1,102 @@
 
 <ion-content class="ion-padding" >
-    <ion-grid>
-      <ion-row>
+    <div *ngIf="type === 'product'">
         <form [formGroup]="productForm" (ngSubmit)="addOrder()" novalidate>
           <div class="ion-no-padding" style="position: relative;">
-            <ion-grid>
-              <ion-row>
-                <ion-col size="3">
-                  <img height="auto" width="100%" src="{{prodImage}}" >
-                </ion-col>
-                <ion-col size="9">
-                      <ion-list>
-                        <ion-item>
-                          <ion-label>Product Name:</ion-label>
-                          <ion-input slot="end" formControlName="product_name"  readOnly></ion-input>
-                        </ion-item>
-                        <ion-item>
-                          <ion-label>Weight:</ion-label>
-                          <ion-text slot="end">{{prodQuantity}}</ion-text>
-                        </ion-item>
-                        <ion-item>
-                          <ion-label>Price</ion-label>
-                          <ion-badge slot="end">{{prodPrice}}</ion-badge>
-                        </ion-item>
-                        <ion-item lines="full">
-                          <ion-label >Quantity</ion-label>
-                          <ion-input min="0" (change)='getQ($event)' class="primary" slot="end" style="text-align: end;" formControlName="quantity" autofocus="true" clearInput="true" type="number" required></ion-input>
-                        </ion-item>
-                        <div *ngIf="(quantity.dirty || quantity.touched) && quantity.errors" class="errors">
-                          <span *ngIf="quantity.errors?.required">Quantity  is required</span>
-                        </div>
-                        <ion-item>
-                          <ion-label>TOTAL PRICE:</ion-label>
-                          <ion-badge slot="end">{{total}}</ion-badge>
-                        </ion-item>
-                      </ion-list>
-                      <ion-list>
-                      <ion-button type="submit" color="secondary"  expand="block">Add Item</ion-button>
-                      <ion-button type="submit" class="btn-danger "  expand="block" (click)="closeModel()">Cancel</ion-button>
-                    </ion-list>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
+            <ion-card>
+              <img src="{{prodImage}}" />
+              <ion-card-header>
+                <ion-card-subtitle>Product Name</ion-card-subtitle>
+                <ion-card-title>{{proName}}</ion-card-title>
+              </ion-card-header>
+            </ion-card>
+              <ion-list>
+                <ion-item>
+                  <ion-label>Price</ion-label>
+                  <ion-badge slot="end">{{prodPrice}}</ion-badge>
+                </ion-item>
+                <ion-item lines="full">
+                  <ion-label slot="start"position="floating">Quantity</ion-label>
+                  <ion-input min="1" (change)='getQ($event)' color="secondary" placeholder="Quantity!" class="primary" slot="end" formControlName="quantity"  type="number" required></ion-input>
+                </ion-item>
+                <div *ngIf="(quantity.dirty || quantity.touched) && quantity.errors" class="errors">
+                  <span *ngIf="quantity.errors?.required">Quantity  is required</span>
+                </div>
+                <ion-item>
+                  <ion-label>Total Price:</ion-label>
+                  <ion-badge slot="end">{{total}}</ion-badge>
+                </ion-item>
+              </ion-list>
+              <ion-list>
+              <ion-button type="submit" color="secondary"  expand="full">Add Item</ion-button>
+              <ion-button type="submit" class="btn-danger "  expand="full" (click)="closeModel()">Cancel</ion-button>
+            </ion-list>
           </div>
         </form>
-      </ion-row>
-    </ion-grid>
+    </div>
+
+    <div *ngIf="type === 'transaction'">
+      <ion-list>
+        <ion-toolbar>
+          <ion-item >
+            <ion-avatar slot="start">
+              <img src="../../../assets/images/image1.png">
+            </ion-avatar>
+            <ion-label>
+              <h2>Transaction Information</h2>
+            </ion-label>
+          </ion-item>
+        </ion-toolbar>
+        <ion-toolbar>
+          <ion-segment value="all" (ionChange)="segmentChanged($event)">
+            <ion-segment-button value="transaction">
+              <ion-label>Transaction Details</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="products">
+              <ion-label>Products List</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-toolbar>
+        <div *ngIf="tabValue === 'transaction'">
+        <ion-item>
+          <ion-label position="floating">Transaction No.</ion-label>
+          <ion-input  value="{{id}}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Address</ion-label>
+          <ion-textarea value="{{address}}"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Contact Number</ion-label>
+          <ion-input value="0{{contact_number}}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Order Status</ion-label>
+          <ion-input value="{{orderStatus}}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Estimated Delivery Date</ion-label>
+          <ion-textarea value="{{estimatedDelivery | date}}"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Total Price</ion-label>
+          <ion-textarea value="{{totalDeliveryPrice}}"></ion-textarea>
+        </ion-item>
+        </div>
+        <div *ngIf="tabValue === 'products'">
+          <ion-list>
+            <ion-item *ngFor="let x of productToDeliver" >
+              <ion-thumbnail slot="start">
+                <ion-img [src]="x.product_image"></ion-img>
+              </ion-thumbnail>
+              <ion-label>{{x.product_name}}</ion-label>
+              <p>{{x.price}}</p>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-list>
+        <ion-button expand="full" style="margin: 0 auto;" type="submit" class="btn-danger "  (click)="closeModel()">Cancel</ion-button>
+    </div>
 
 
 </ion-content>
