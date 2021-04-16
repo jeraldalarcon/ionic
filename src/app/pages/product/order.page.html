@@ -1,48 +1,49 @@
-
 <ion-header class="ion-no-border header-style" color="default">
-  <ion-toolbar class="no-border header" >
-  <ion-item lines="none">
-    <ion-avatar slot="start">
-      <img src="../../../assets/images/profile.png">
-    </ion-avatar>
-    <ion-label>
-      <p>Hello,</p>
-      <h3>{{fn}}</h3>
-    </ion-label>
-  </ion-item>
+  <ion-toolbar class="no-border header">
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img src="../../../assets/images/profile.png" />
+      </ion-avatar>
+      <ion-label>
+        <p>Hello,</p>
+        <h3>{{fn}}</h3>
+      </ion-label>
+    </ion-item>
 
     <ion-buttons slot="end" (click)="signOut()">
-      <ion-button class="bordered" fill="solid" style="--background: blue;">
+      <ion-button class="bordered" fill="solid" style="--background: blue">
         <ion-icon name="log-out"></ion-icon>
       </ion-button>
     </ion-buttons>
-
   </ion-toolbar>
   <div class="logo"></div>
 </ion-header>
 
-<ion-content fullscreen  class="content-style" >
-
-  <ion-list style="background: #0f467f!important;margin-top:0!important;">
+<ion-content fullscreen class="content-style">
+  <ion-list style="background: #0f467f !important; margin-top: 0 !important">
     <ion-list-header class="center-list-header">
       <ion-label>Product List</ion-label>
     </ion-list-header>
-    <ion-item  *ngIf="!productList; else notEmpty">
-      <ion-badge color="danger" style="margin: 0 auto;">No Data Found</ion-badge>
+    <ion-item *ngIf="!productList; else notEmpty">
+      <ion-badge color="danger" style="margin: 0 auto">No Data Found</ion-badge>
     </ion-item>
     <ng-template #notEmpty>
-      <ion-list *ngFor="let product of productList " >
+      <ion-list *ngFor="let product of productList ">
         <ion-item-sliding>
           <ion-item>
             <ion-grid>
               <ion-row>
                 <ion-col size="3">
-                  <img height="auto" width="100%" src="{{product.itemImage}}" >
+                  <img height="auto" width="100%" src="{{product.itemImage}}" />
                 </ion-col>
-                <ion-col size="9" >
+                <ion-col size="9">
                   <div class="absolute-center">
-                    <ion-label ><b>{{product.name}}</b></ion-label>
-                    <ion-badge color="warning"><ion-label color="primary">PHP {{product.price}} </ion-label></ion-badge>
+                    <ion-label><b>{{product.name}}</b></ion-label>
+                    <ion-badge color="warning"
+                      ><ion-label color="primary"
+                        >PHP {{product.price}}
+                      </ion-label></ion-badge
+                    >
                   </div>
                 </ion-col>
               </ion-row>
@@ -50,12 +51,12 @@
           </ion-item>
           <ion-item-options side="end">
             <ion-item-option (click)="openIonModal(product)">
-              <ion-icon name="eye-outline" style="font-size: 24px;"></ion-icon>
+              <ion-icon name="eye-outline" style="font-size: 24px"></ion-icon>
             </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
       </ion-list>
-    <!-- <ion-item *ngFor="let product of productList " (click)="openIonModal(product)" class="ion-no-padding">
+      <!-- <ion-item *ngFor="let product of productList " (click)="openIonModal(product)" class="ion-no-padding">
       <ion-grid>
         <ion-row>
           <ion-col size="3">
@@ -70,6 +71,6 @@
         </ion-row>
       </ion-grid>
     </ion-item> -->
-  </ng-template>
+    </ng-template>
   </ion-list>
 </ion-content>

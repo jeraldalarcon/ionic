@@ -3,13 +3,12 @@ import { OrderService, Item } from './../../services/order.service';
 import { TransactionService } from './../../services/transaction.service';
 import { AuthService } from './../../services/auth.service';
 import { Router } from '@angular/router';
-import { Component, OnInit ,ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Storage } from '@ionic/storage';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, LoadingController } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-order-list',
@@ -17,32 +16,31 @@ import { AlertController, LoadingController } from '@ionic/angular';
   styleUrls: ['./order-list.page.scss'],
 })
 export class OrderListPage implements OnInit {
-
   public myDataList = new BehaviorSubject([]);
   public dataSource: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);
 
   ionicForm: FormGroup;
-  defaultDate = "1987-06-30";
+  defaultDate = '1987-06-30';
   isSubmitted = false;
-  products:any = [];
-  userInfo :any;
-  fn:string;
-  prodName:string;
+  products: any = [];
+  userInfo: any;
+  fn: string;
+  prodName: string;
   prodImage: string;
   prodPrice: number;
-  prodQuantity:number;
-  len:number;
-  grandTotal:any;
-  modeOfPayment:string = "Cash Only";
-  totalQuantity:number;
+  prodQuantity: number;
+  len: number;
+  grandTotal: any;
+  modeOfPayment: string = 'Cash Only';
+  totalQuantity: number;
 
-  userId:string;
+  userId: string;
 
-  contact_number:string;
-  full_name:string;
-  inputAddress:string;
+  contact_number: string;
+  full_name: string;
+  inputAddress: string;
 
-  myDate:Date;
+  myDate: Date;
   latitude: any = 0; //latitude
   longitude: any = 0; //longitude
 
@@ -50,96 +48,91 @@ export class OrderListPage implements OnInit {
 
   newItem: Item = <Item>{};
 
-  @ViewChild('myList')myList;
+  @ViewChild('myList') myList;
 
-  addressErrorMessage:string = "";
-
+  addressErrorMessage: string = '';
 
   constructor(
     private router: Router,
-    private authService:AuthService,
-    private tranSac:TransactionService,
+    private authService: AuthService,
+    private tranSac: TransactionService,
     private geolocation: Geolocation,
     private orderService: OrderService,
     private plt: Platform,
-    private toast:ToastController,
+    private toast: ToastController,
     private storage: Storage,
     public formBuilder: FormBuilder,
     private alertController: AlertController,
-    private loadingController: LoadingController,
-  ) {
-  }
+    private loadingController: LoadingController
+  ) {}
 
   options = {
     timeout: 10000,
     enableHighAccuracy: true,
-    maximumAge: 3600
+    maximumAge: 3600,
   };
 
   ionViewWillEnter() {
     let local = JSON.parse(localStorage.getItem('user'));
-    console.log('ggg:',local)
-    this.authService.getUserInfo(local.uid).subscribe(
-      res => {
-        this.userInfo = res;
-        this.fn = this.userInfo.full_name;
-    }
-    )
+    console.log('ggg:', local);
+    this.authService.getUserInfo(local.uid).subscribe((res) => {
+      this.userInfo = res;
+      this.fn = this.userInfo.full_name;
+    });
   }
 
   ngOnInit() {
     this.ionicForm = this.formBuilder.group({
       address: ['', Validators.required],
       dateDelivery: ['', [Validators.required]],
-      contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-    })
+      contactNumber: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]+$')],
+      ],
+    });
 
     this.orderService.getItems();
 
-    this.getCurrentCoordinates()
+    this.getCurrentCoordinates();
     this.getProductData();
-    this.orderService.getItems()
+    this.orderService.getItems();
 
     this.getItemList();
-
   }
 
-  getTotalQ(arr){
+  getTotalQ(arr) {
     let sum = 0;
-    arr.forEach(function(item) {
-        let calculation = item.quantity;
-        sum += calculation;
-    })
-    console.log('sum ko:',sum);
-    return this.totalQuantity = sum;
+    arr.forEach(function (item) {
+      let calculation = item.quantity;
+      sum += calculation;
+    });
+    console.log('sum ko:', sum);
+    return (this.totalQuantity = sum);
   }
 
-  getTotal(arr){
+  getTotal(arr) {
     let sum = 0;
-    arr.forEach(function(item) {
-        let calculation = item.price * item.quantity;
-        sum += calculation;
-    })
-    return this.grandTotal = sum;
+    arr.forEach(function (item) {
+      let calculation = item.price * item.quantity;
+      sum += calculation;
+    });
+    return (this.grandTotal = sum);
   }
 
-
-  getItemList(){
-    this.orderService.myData.subscribe(res => {
+  getItemList() {
+    this.orderService.myData.subscribe((res) => {
       this.items = res;
-      console.log('infromation:',this.items)
+      console.log('infromation:', this.items);
 
-      if(this.items !== null){
+      if (this.items !== null) {
         this.len = this.items.length;
-        console.log('bilangin Ko:',this.len)
-        this.getTotal(this.items)
-        this.getTotalQ(this.items)
-
-      }else {
+        console.log('bilangin Ko:', this.len);
+        this.getTotal(this.items);
+        this.getTotalQ(this.items);
+      } else {
         this.len = 0;
       }
-
-    })
+    });
   }
 
   get contactNumber() {
@@ -150,7 +143,6 @@ export class OrderListPage implements OnInit {
     return this.ionicForm.get('address');
   }
 
-
   get dateDelivery() {
     return this.ionicForm.get('dateDelivery');
   }
@@ -158,92 +150,93 @@ export class OrderListPage implements OnInit {
   getDate(e) {
     let date = new Date(e.target.value).toISOString().substring(0, 10);
     this.ionicForm.get('dateDelivery').setValue(date, {
-       onlyself: true
-    })
- }
+      onlyself: true,
+    });
+  }
 
   getProductData() {
     let local = JSON.parse(localStorage.getItem('user'));
-    console.log('local:',local);
+    console.log('local:', local);
     this.userId = local.uid;
-    console.log('USER ID KO:',this.userId)
-    this.authService.getUserInfo(this.userId.toString()).subscribe(
-      res => {
-        console.log('ttt:',res)
-        this.userInfo = res;
-        this.contact_number = this.userInfo.contact_number;
-        this.full_name = this.userInfo['full_name']
-      }
-    )
+    console.log('USER ID KO:', this.userId);
+    this.authService.getUserInfo(this.userId.toString()).subscribe((res) => {
+      console.log('ttt:', res);
+      this.userInfo = res;
+      this.contact_number = this.userInfo.contact_number;
+      this.full_name = this.userInfo['full_name'];
+    });
   }
 
   getCurrentCoordinates() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.latitude = resp.coords.latitude;
-      console.log('lat:',this.latitude)
-      this.longitude = resp.coords.longitude;
-      console.log('long:',this.longitude)
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
+    this.geolocation
+      .getCurrentPosition()
+      .then((resp) => {
+        this.latitude = resp.coords.latitude;
+        console.log('lat:', this.latitude);
+        this.longitude = resp.coords.longitude;
+        console.log('long:', this.longitude);
+      })
+      .catch((error) => {
+        console.log('Error getting location', error);
+      });
   }
 
-  getProductList(){
-    var localList = localStorage.getItem('data')|| "[]";
+  getProductList() {
+    var localList = localStorage.getItem('data') || '[]';
     var productList = JSON.parse(localList);
-    this.products =  productList;
+    this.products = productList;
 
-    this.len = this.products.length
+    this.len = this.products.length;
     var val = 0;
     // this.products.forEach(item => {
     //   val = val +item.price
     //   this.grandTotal =val;
     // });
-
   }
 
-
-  async gotToTransaction(){
-    console.log('valid',this.ionicForm.valid)
-    if(!this.ionicForm.valid){
-      return
+  async gotToTransaction() {
+    console.log('valid', this.ionicForm.valid);
+    if (!this.ionicForm.valid) {
+      return;
     }
     const loading = await this.loadingController.create();
     await loading.present();
-    this.getCurrentCoordinates()
+    this.getCurrentCoordinates();
 
     const obj = {
-      customer_name:this.full_name,
-      contact_number:this.contactNumber.value,
-      address:this.address.value,
+      customer_name: this.full_name,
+      contact_number: this.contactNumber.value,
+      address: this.address.value,
       estimatedDelivery: this.dateDelivery.value,
-      user_id:this.userId,
-      orderStatus:'Pending',
-      productToDeliver:this.items,
-      quantity:this.totalQuantity,
-      status: "Active",
-      totalDeliveryPrice:this.grandTotal,
+      user_id: this.userId,
+      orderStatus: 'Pending',
+      productToDeliver: this.items,
+      quantity: this.totalQuantity,
+      status: 'Active',
+      totalDeliveryPrice: this.grandTotal,
       long: this.latitude,
-      lat:this.longitude,
-      active:true,
-      dateCreated: new Date()
-    }
+      lat: this.longitude,
+      active: true,
+      dateCreated: new Date(),
+    };
 
-    console.log('buy ko to:',obj)
+    console.log('buy ko to:', obj);
 
     this.tranSac.create_transaction(obj).then(
-      res => {
-        this.tranSac.DB.collection("transactions").doc(res.id).update({id: res.id}).then((res)=> {
-          this.items = [];
-          this.len = 0;
-          this.contactNumber.reset();
-          this.address.reset();
-          this.dateDelivery.reset();
-          loading.dismiss();
-          this.storage.clear();
-          this.router.navigateByUrl("/tabs/order")
-        })
-
+      (res) => {
+        // this.tranSac.DB.collection('transactions')
+        // .doc(res.id)
+        // .update({ id: res.id })
+        // .then((res) => {
+        this.items = [];
+        this.len = 0;
+        this.contactNumber.reset();
+        this.address.reset();
+        this.dateDelivery.reset();
+        loading.dismiss();
+        this.storage.clear();
+        this.router.navigateByUrl('/tabs/order');
+        // });
       },
       async (err) => {
         loading.dismiss();
@@ -255,77 +248,68 @@ export class OrderListPage implements OnInit {
 
         await alert.present();
       }
-    )
+    );
   }
 
   gotToProductList() {
-    this.router.navigateByUrl("/tabs/order")
+    this.router.navigateByUrl('/tabs/order');
   }
 
-  deleteOrder(id){
-    var localList = localStorage.getItem('data') || "[]";
+  deleteOrder(id) {
+    var localList = localStorage.getItem('data') || '[]';
     var p = JSON.parse(localList);
-    p.splice(id ,1);
+    p.splice(id, 1);
     var a2 = JSON.stringify(p);
-    localStorage.setItem('data',a2);
-    var u = localStorage.getItem('data')
+    localStorage.setItem('data', a2);
+    var u = localStorage.getItem('data');
     this.getProductList();
   }
 
-  getIndex(index){
-    console.log('index;',index)
-    if(index){
+  getIndex(index) {
+    console.log('index;', index);
+    if (index) {
       return index;
     }
   }
 
-  addItem(){
-    this.orderService.addItem(this.newItem).then(item => {
+  addItem() {
+    this.orderService.addItem(this.newItem).then((item) => {
       this.newItem = <Item>{};
       //this.loadItems();
       this.showToast('item added');
-    })
+    });
   }
 
-  updateItem(item: Item){
+  updateItem(item: Item) {
     item.product_name = `UPDATED: ${item.product_name}`;
 
-    this.orderService.updateItem(item).then(item => {
+    this.orderService.updateItem(item).then((item) => {
       this.showToast('Item updated');
-    })
-
+    });
   }
 
-  deleteItem(item: Item){
-    this.orderService.deleteItem(item).then(item => {
-      console.log('yyyy:',item)
+  deleteItem(item: Item) {
+    this.orderService.deleteItem(item).then((item) => {
+      console.log('yyyy:', item);
       //this.loadItems()
       this.getItemList();
       this.showToast('Item Deleted');
-    })
-
+    });
   }
 
-  async showToast(msg){
+  async showToast(msg) {
     const toast = await this.toast.create({
       message: msg,
-      duration: 2000
+      duration: 2000,
     });
     toast.present();
   }
 
-
   signOut() {
-
     this.authService.signOut().then(() => {
-      localStorage.removeItem('user')
+      localStorage.removeItem('user');
       this.storage.clear();
       this.router.navigateByUrl('/login', { replaceUrl: true });
-
     });
-
   }
-
-
 }
-
