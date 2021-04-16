@@ -32,9 +32,8 @@ export class OrderListPage implements OnInit {
   prodPrice: number;
   prodQuantity:number;
   len:number;
-  grandTotal:any;
+  grandTotal:number;
   modeOfPayment:string = "Cash Only";
-  totalQuantity:number;
 
   userId:string;
 
@@ -76,25 +75,27 @@ export class OrderListPage implements OnInit {
     maximumAge: 3600
   };
 
-  ionViewWillEnter() {
-    let local = JSON.parse(localStorage.getItem('user'));
-    console.log('ggg:',local)
-    this.authService.getUserInfo(local.uid).subscribe(
-      res => {
-        this.userInfo = res;
-        this.fn = this.userInfo.full_name;
-    }
-    )
-  }
-
   ngOnInit() {
+
     this.ionicForm = this.formBuilder.group({
+      name: [''],
       address: ['', Validators.required],
       dateDelivery: ['', [Validators.required]],
       contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      mode: [this.modeOfPayment],
+      total: [this.grandTotal]
     })
 
     this.orderService.getItems();
+
+    let local = JSON.parse(localStorage.getItem('user'));
+    this.authService.getUserInfo(local.uid).subscribe(
+      res => {
+        this.userInfo = res;
+        this.fn = this.userInfo.full_name
+        console.log('info:',res)
+      }
+    )
 
     this.getCurrentCoordinates()
     this.getProductData();
@@ -104,26 +105,6 @@ export class OrderListPage implements OnInit {
 
   }
 
-  getTotalQ(arr){
-    let sum = 0;
-    arr.forEach(function(item) {
-        let calculation = item.quantity;
-        sum += calculation;
-    })
-    console.log('sum ko:',sum);
-    return this.totalQuantity = sum;
-  }
-
-  getTotal(arr){
-    let sum = 0;
-    arr.forEach(function(item) {
-        let calculation = item.price * item.quantity;
-        sum += calculation;
-    })
-    return this.grandTotal = sum;
-  }
-
-
   getItemList(){
     this.orderService.myData.subscribe(res => {
       this.items = res;
@@ -132,12 +113,12 @@ export class OrderListPage implements OnInit {
       if(this.items !== null){
         this.len = this.items.length;
         console.log('bilangin Ko:',this.len)
-        this.getTotal(this.items)
-        this.getTotalQ(this.items)
-
+        var val = 0;
+        this.grandTotal = this.items.reduce((sum,item) => sum + item.price, 0);
       }else {
         this.len = 0;
       }
+
 
     })
   }
@@ -195,19 +176,18 @@ export class OrderListPage implements OnInit {
 
     this.len = this.products.length
     var val = 0;
-    // this.products.forEach(item => {
-    //   val = val +item.price
-    //   this.grandTotal =val;
-    // });
+    this.products.forEach(item => {
+      val = val +item.price
+      this.grandTotal =val;
+    });
 
   }
 
 
   async gotToTransaction(){
     console.log('valid',this.ionicForm.valid)
-    if(!this.ionicForm.valid){
-      return
-    }
+    if(this.ionicForm.valid){
+
     const loading = await this.loadingController.create();
     await loading.present();
     this.getCurrentCoordinates()
@@ -217,33 +197,29 @@ export class OrderListPage implements OnInit {
       contact_number:this.contactNumber.value,
       address:this.address.value,
       estimatedDelivery: this.dateDelivery.value,
-      user_id:this.userId,
+      id:this.userId,
       orderStatus:'Pending',
       productToDeliver:this.items,
-      quantity:this.totalQuantity,
+      quantity:this.len,
       status: "Active",
       totalDeliveryPrice:this.grandTotal,
       long: this.latitude,
       lat:this.longitude,
       active:true,
-      dateCreated: new Date()
     }
 
     console.log('buy ko to:',obj)
-
     this.tranSac.create_transaction(obj).then(
       res => {
-        this.tranSac.DB.collection("transactions").doc(res.id).update({id: res.id}).then((res)=> {
-          this.items = [];
-          this.len = 0;
-          this.contactNumber.reset();
-          this.address.reset();
-          this.dateDelivery.reset();
-          loading.dismiss();
-          this.storage.clear();
-          this.router.navigateByUrl("/tabs/order")
-        })
-
+        console.log('retur ko :',res)
+        this.items = [];
+        this.len = 0;
+        this.contactNumber.reset();
+        this.address.reset();
+        this.dateDelivery.reset();
+        loading.dismiss();
+        this.storage.clear();
+        this.router.navigateByUrl("/tabs/order")
       },
       async (err) => {
         loading.dismiss();
@@ -256,6 +232,9 @@ export class OrderListPage implements OnInit {
         await alert.present();
       }
     )
+  }else{
+    return
+  }
   }
 
   gotToProductList() {
