@@ -31,6 +31,7 @@ export class ViewListPage implements OnInit {
   transactionList:any = [];
   userInfo :any;
   fn:string;
+  modelData: any;
 
   constructor(
     private trasacService:TransactionService,
