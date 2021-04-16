@@ -230,7 +230,7 @@ export class OrderListPage implements OnInit {
     }
 
     console.log('buy ko to:',obj)
-return
+
     this.tranSac.create_transaction(obj).then(
       res => {
         this.tranSac.DB.collection("transactions").doc(res.id).update({id: res.id}).then((res)=> {
